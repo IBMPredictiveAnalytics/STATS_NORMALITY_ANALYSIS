@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!--***********************************************************************--><!----><!--Licensed Materials - Property of IBM--><!----><!--IBM SPSS Products: Modeler Common--><!----><!--(C) Copyright IBM Corp. 1989, 2024--><!----><!--US Government Users Restricted Rights - Use, duplication or disclosure--><!--restricted by GSA ADP Schedule Contract with IBM Corp.--><!----><!--***********************************************************************--><Module xmlns="http://xml.spss.com/pasw/extension" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" debug="false" version="8.0" xsi:schemaLocation="http://xml.spss.com/pasw/extension http://xml.spss.com/pasw/extension/ModuleSpecification.xsd">
+  <ModuleDetails copyright="(c) 2024 SPSS, Inc." description="R Model Builder/Applier Node" id="rstats" label="rstats" provider="IBM SPSS, Inc." providerTag="pasw" version="8.0"/>
+  <SharedLibrary basename="rcomponent"/>
+  <Resources>
+    <Bundle id="rstats_module_res" path="messages" type="properties"/>
+    <HelpInfo id="help" type="native"/>
+  </Resources>
+  <CommonObjects>
+    <PropertyTypes>
+      <Enumeration id="DatetimeConversionType">
+        <Enum resourceKey="DatetimeConversionType.POSIXct" value="POSIXct"/>
+        <Enum resourceKey="DatetimeConversionType.POSIXlt" value="POSIXlt"/>
+      </Enumeration>
+    </PropertyTypes>
+  </CommonObjects>
+  <StatusCodes>
+    <StatusCode code="1" messageKey="exceptionOccured.LABEL" status="error"/>
+  </StatusCodes>
+  <ContainerTypes>
+    <ContainerType fileSuffix="" id="model_container" mimeType="txt" resourceKey=""/>
+    <ContainerType fileSuffix="" id="outputxml_container" mimeType="txt" resourceKey=""/>
+  </ContainerTypes>
+  <Component id="rbuilder">
+    <Capabilities>
+      <!--Consumer-->
+    </Capabilities>
+    <Properties>
+      <Property defaultValue="" name="build_syntax" valueType="string"/>
+      <Property defaultValue="" name="score_syntax" valueType="string"/>
+      <Property defaultValue="true" name="convert_missing" valueType="boolean"/>
+      <Property defaultValue="false" name="convert_datetime" valueType="boolean"/>
+      <Property defaultValue="POSIXct" name="convert_datetime_class" type="DatetimeConversionType"/>
+    </Properties>
+    <Containers>
+      <Container name="ConsoleOutput" runtimeProperty="tmpReportFile" type="r_console_container" usage="output"/>
+      <Container name="RModel" runtimeProperty="tmpModelFile" type="r_model_container" usage="output"/>
+    </Containers>
+    <Constraints/>
+  </Component>
+  <Component id="routput">
+    <Capabilities>
+      <Consumer/>
+    </Capabilities>
+    <Properties>
+      <Property defaultValue="" name="syntax" valueType="string"/>
+      <Property defaultValue="true" name="convert_missing" valueType="boolean"/>
+      <Property defaultValue="false" name="convert_datetime" valueType="boolean"/>
+      <Property defaultValue="POSIXct" name="convert_datetime_class" type="DatetimeConversionType"/>
+    </Properties>
+    <Containers>
+      <Container name="ConsoleOutput" runtimeProperty="tmpReportFile" type="r_console_container" usage="output"/>
+      <Container name="HTMLOutput" runtimeProperty="tmpReportFile" type="html_container" usage="output"/>
+      <Container name="TextOutput" runtimeProperty="tmpReportFile" type="text_container" usage="output"/>
+    </Containers>
+    <Constraints/>
+  </Component>
+  <Component id="rapplier">
+    <Properties>
+      <Property defaultValue="" name="syntax" valueType="string"/>
+    </Properties>
+    <Containers>
+      <Container name="RModel" runtimeProperty="tmpModelFile" type="model_container" usage="output"/>
+      <Container name="ApplierConsoleOutput" runtimeProperty="tmpReportFile" type="r_console_container" usage="output"/>
+    </Containers>
+    <Constraints/>
+  </Component>
+  <Component id="rprocess">
+    <Properties>
+      <Property defaultValue="" name="syntax" valueType="string"/>
+      <Property defaultValue="true" name="convert_missing" valueType="boolean"/>
+      <Property defaultValue="false" name="convert_datetime" valueType="boolean"/>
+      <Property defaultValue="POSIXct" name="convert_datetime_class" type="DatetimeConversionType"/>
+    </Properties>
+    <Containers>
+      <Container name="ApplierConsoleOutput" runtimeProperty="tmpReportFile" type="r_console_container" usage="output"/>
+    </Containers>
+    <Constraints/>
+  </Component>
+  <Component id="rinteractor">
+    <Properties>
+      <Property defaultValue="" name="syntax" valueType="string"/>
+      <Property defaultValue="" name="home" valueType="string"/>
+      <Property defaultValue="" name="output_datamodel" valueType="string"/>
+      <Property defaultValue="" name="input_datamodel" valueType="string"/>
+    </Properties>
+  </Component>
+  <Component id="rimporter">
+    <Properties>
+      <Property defaultValue="" name="syntax" valueType="string"/>
+      <Property defaultValue="true" name="convert_missing" valueType="boolean"/>
+      <Property defaultValue="false" name="convert_datetime" valueType="boolean"/>
+      <Property defaultValue="POSIXct" name="convert_datetime_class" type="DatetimeConversionType"/>
+      <Property defaultValue="StringsAndDoubles" name="convert_flag" type="ConvertFlagFieldsType"/>
+      <Property defaultValue="" name="last_syntax" valueType="string"/>
+      <Property defaultValue="" name="home" valueType="string"/>
+      <Property defaultValue="false" name="use_batch_size" valueType="boolean"/>
+      <Property defaultValue="1000" min="1" name="batch_size" valueType="integer"/>
+      <Property defaultValue="" name="input_datamodel" valueType="string"/>
+    </Properties>
+    <Containers>
+      <Container name="ConsoleOutput" runtimeProperty="tmpReportFile" type="r_console_container" usage="output"/>
+      <Container name="TextOutput" runtimeProperty="tmpReportFile" type="text_container" usage="output"/>
+    </Containers>
+  </Component>
+  <Component id="rexporter">
+    <Properties>
+      <Property defaultValue="" name="syntax" valueType="string"/>
+      <Property defaultValue="true" name="convert_missing" valueType="boolean"/>
+      <Property defaultValue="false" name="convert_datetime" valueType="boolean"/>
+      <Property defaultValue="POSIXct" name="convert_datetime_class" type="DatetimeConversionType"/>
+      <Property defaultValue="StringsAndDoubles" name="convert_flag" type="ConvertFlagFieldsType"/>
+      <Property defaultValue="" name="home" valueType="string"/>
+      <Property defaultValue="false" name="use_batch_size" valueType="boolean"/>
+      <Property defaultValue="1000" min="1" name="batch_size" valueType="integer"/>
+    </Properties>
+    <Containers>
+      <Container name="ConsoleOutput" runtimeProperty="tmpReportFile" type="r_console_container" usage="output"/>
+      <Container name="TextOutput" runtimeProperty="tmpReportFile" type="text_container" usage="output"/>
+    </Containers>
+  </Component>
+</Module>

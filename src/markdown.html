@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<!-- saved from url=(0014)about:internet -->
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+<meta http-equiv="x-ua-compatible" content="IE=9" >
+
+<title>STATS NORMALITY ANALYSIS</title>
+
+<link rel="stylesheet" type="text/css" href="extsyntax.css" />
+
+</head>
+
+<body>
+<h1>STATS NORMALITY ANALYSIS</h1>
+
+<p>A collection of statistics and plots for assessing univariate
+and multivariate normality of a set of variables</p>
+<div class="syntax">
+<p>STATS NORMALITY ANALYSIS
+VARIABLES variable list<sup>&#42;</sup><br/>
+<p>/OUTPUT<br/>
+UNIVARIATETESTS = AD SW CVM LILLIE SF<br/>
+MVNTESTS = MARDIA HZ ROYSTON DH ENERGY</br>
+BOOTSTRAPREPS = integer</br>
+SCALEDATA = NO<sup>&#42;&#42;</sup> or YES<br/>
+UNIPLOTS = QQ HISTOGRAM BOX SCATTER<BR/>
+MULTIVARPLOTS = QQ PERSP CONTOUR <BR/>
+DESCRIPTIVES = NO<sup>&#42;&#42;</sup> or YES<BR/>
+</p>
+<p>
+/OUTLIERS<BR/>
+IDVAR = variable <sup>&#42;</sup><br/>
+NOUTLIERS = integer <br/>
+OUTLIERDETECTION = QUAN<sup>&#42;&#42;</sup> or ADJ
+</p>
+
+<p>/HELP</p>
+
+<p><sup>&#42;</sup> Required<br/>
+<sup>&#42;&#42;</sup> Default</p>
+</div>
+<p>STATS NORMALITY ANALYSIS /HELP displays this help and does nothing else.</p>
+
+
+<pre class="example"><code>
+STATS NORMALITY ANALYSIS VARIABLES = X1 TO X10
+/ OUTPUT UNIVARIATE=AD SW.
+</code></pre>
+<pre class="example"><code>
+STATS PREPROCESS VARIABLES = X1 X2
+/OUTPUT 
+/OUTLIERS IDVAR=id NOUTLIERS=10 OUTLIERDETECTION=ADJ. 
+</code></pre>
+
+<H2>Subcommands and Keywords</H2>
+<p>This procedure supports SPLIT FILES, but it does not support case weights.  If weighting is on,
+weights will be ignored with a warning.  Cases with any missing values in the selected variables
+will be excluded from the analysis.</p>
+
+<p>
+<strong>VARIABLES</strong> Specify the variables whose univariate and joint distributions are to
+be analyzed.  Variable names must match case with the names as they exist in the active dataset's dictionary.
+Only scale-level variables can be analyzed.  If SPLIT FILE is in effect, the
+split variables cannot appear in the VARIABLES list.<p>
+<p><strong>UNIVARIATETESTS</strong> Specify zero or more normality test statistics.
+The available tests are as follows,
+<ul>
+<li>AD: Anderson-Darling</li>
+<li>SW: Shapiro-Wilk.  Do not use this test if there are more than 5000 cases or fewer than 3.</li>
+<li>CVM: Cramer-von Mises</li>
+<li>SF: Shapiro-Francia</li>
+<li>LILLIE: Lillefors (Kolmogorov-Smirnov)</li>
+</ul>
+<strong>MULTIVARIATETESTS</strong> Specify zero or more multivariate distribution tests.  
+The available tests are as follows.
+<ul>
+<li>HZ: Henze-Zirkler</li>
+<li>MARDIA: Mardia</li>
+<li>ROYSTON: Royston</li>
+<li>DH: Doornik-Hansen.  Do not use this test if there are more than 5000 cases or fewer than 3.</li>
+<li>ENERGY: Energy E</li>
+</ul>
+<p><strong>BOOTSTRAPREPS</strong> specifies the number of replications for the bootstrap for the Energy E test.
+Setting it to zero suppresses bootstrapping but means that no significance level will appear.</p>
+<strong>UNIVARPLOTS</strong> specifies zero or more univariate plots.  
+All the variables will appear in a single panel.  The available plots are
+<ul>
+<li>HISTOGRAM: histogram.  All the variables will appear in a single panel.</li>
+<li>BOX: box plot</li>
+<li>QQ:: Q-Q plot</li>
+<li>SCATTER: scatterplot</li>
+</ul>
+<p>
+<strong>MULTIVARPLOTS</strong> specifies zero or more plots of the joint distribution.  The plots are
+<ul>
+<li>QQ Q-Q plot</li>
+<li>CONTOUR contour plot.  Only the first two variables will be plotted</li>
+<li>PERSP perspective plot.  Only the first two variables will be plotted.</li>
+</ul>
+<p><strong>OUTLIERS</strong></p>
+A table and chart of multivariate outliers is specified in the <strong>OUTLIERS</strong> subcommand.
+<P><strong>IDVAR</strong> specifies an ID variable that will be used to label the outliers and plot
+points.</p>
+<p><strong>OUTLIERDECTION</strong> specifies how outlier Mahalanobis distance is calculated.  The default
+is QUAN.  With ADJ, an adaptive reweighted estimator for multivariate location and scatter with hard-rejection weights
+is used.</p>
+<strong>NOUTLIERS</strong> specifies the maximum number of outlier points to display.  In the table, the values are
+shown in descending order of distance up to the limit.<p>
+
+<h2>Acknowledgements</h2>
+The calculations and plots are carried out by the R MVN package. The package authors are
+Selcuk Korkmaz,
+Dincer Goksuluk, and
+Gokmen Zararsiz.
+<p>&copy; Copyright(C) Jon K. Peck, 2023</p>
+
+</body>
+
+</html>
+

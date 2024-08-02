@@ -1,0 +1,73 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+
+<html>
+<head>
+  <meta http-equiv="Content-Type" content=
+  "text/html; charset=utf-8">
+
+  <title>Normality Analysis</title>
+  <style type="text/css">
+
+  <!-- 
+
+  H1 {font-weight:bold; color:#006699; font-size:125%; }
+  H2 {font-weight:bold; color:#006699; font-size:110%; }
+  TABLE {font-size:100%;}
+
+  /* paragraph tags */
+  .step {text-indent: -1.3em; margin-left:1.3em; margin-top: 0px;}
+  .menuselection {margin-left:10px}
+  .bullet {list-style-type: disc;margin-top:12px; margin-left:36px; text-indent:-1em; }
+  .codeblock {background-color: #ffffe6; display:block; margin-left:5px; padding:5px;}
+
+  /* inline tags */
+  .screen {font-weight:bold; color:#408080}                       /*** used refer to on-screen text ***/
+  .name {font-style: italic}                                                       /*** used to tag names, such as variable names, file names, and so forth ***/
+  .runinhead {font-weight: bold} 
+  .superscript {vertical-align:super; font-size:80%}
+  .subscript {vertical-align:sub; font-size:80%}
+
+
+  --> 
+  </style>
+</head>
+
+<body>
+  <h1>Normality Analysis</h1>
+  <p>Use this dialog to assess the univariate and multivariate normality of a set of variables.  It provides a number of test statistics, plots, and an outlier analysis.  Choose the variables whose distribution
+  will be analyzed on the first tab.  Variable names must match case with the names as they exist in the active dataset's dictionary.  Choose the desired tests, plots, and summary statistics on the <i>Tests and Plots</i> tab, and choose the desired outlier analysis on the <i>Outliers</i> tab.  Only variables with a scale measurement level can be analyzed,
+  While there is no limit on the number of variables that can be analyzed, some plots only support two variables, and some may be hard to read with a large number of variables.</p>
+  
+  
+  <p>It may be helpful to use split files (<i>Data &gt;Split File</i>) in assessing normality for subgroups such as occur with ANOVA as a separate analyses is produced for each split.  Split file variables cannot be included in the analysis list.</p>
+  <p>This procedure does not support case weights.  If there is a weight set, it will be ignored with a warning.  Only complete cases are analyzed, i.e., missing values are deleted listwise.</p>
+  
+  <p>If the analysis leads to a need to transform variables in order to make their distribution more normal, the <i>Preprocess variables</i> extension command provides several transformation methods that may be used.  If not already installed, this command can be installed via <i>Extensions &gt; Extension Hub</i>.  It will appear on the <i>Transform</i> menu.</p>
+  
+  <h2>Tests and Plots</h2>
+  <p>Check the boxes for the desired univariate and multivariate tests.  See below for information about these tests.  The <i>Royston</i> and <i>Shapiro-Wilk</i> tests cannot be used with more than 5000 cases or fewer than 3.</p>
+  
+  <p>Check the boxes for the desired plots.  The <i>Perspective</i> and <i>Contour</i>
+  plots cannot be used for more than two variables.  If selected, those plots will
+  only be produced for the first two variables.</p>
+  
+  <p>Check the <i>Descriptive Statistics</i> box to produce a table of statistics
+  useful for normality analysis.</p>
+  
+  <p>Check the <i>Scale all variables</i> box to scale all the variables</p>
+  
+<h2>Outliers</h2>
+<p>Check the <i>Show multivariate outliers</i> box to produce a table of outliers and a corresponding Q-Q plot.  An ID variable must be specified for this output in order to identify the outlier points.  The id variable must not be included in the distribution list.<p>
+
+<p>Choose either <i>Quantile Mahalanobis Distance</i> or <i>Adjusted Mahalanobis distance</i> for the outlier detection method.  Select the number of outliers to display.  The table lists these in descending order of distance.</p>
+
+<h2>Acknowledgements</h2>
+The MVN package authors, on which this procedure is based, are
+Selcuk Korkmaz,
+Dincer Goksuluk, and
+Gokmen Zararsiz.
+
+  <p style="font-size:80%;">
+  © Copyright Jon K Peck and IBM Corp. 2024</p>
+</body>
+</html>

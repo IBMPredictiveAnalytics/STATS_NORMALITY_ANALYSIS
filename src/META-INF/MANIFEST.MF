@@ -1,0 +1,20 @@
+Name: STATS NORMALITY ANALYSIS
+Dialog-Specs: normalityanalysis.cfe
+Command-Specs: STATS_NORMALITY_ANALYSIS.XML
+Code-Files: STATS_NORMALITY_ANALYSIS.R
+Misc-Files: extsyntax.css,stats_normality_analysis.htm,markdown.html
+Summary: Univariate and muiltivariate tests and plots for normality of
+  a set of variables
+Description: This procedure calculates several tests for univariate no
+ rmality of a set of variables and multivariate normality of the joint
+  distribution.  It also calculates univariate and multivariate plots 
+ helpful in assessing normality and outliers from a multivariate norma
+ l distribution.  It can be used for one or more variables.
+Author: Jon K Peck
+Version: 1.0.0
+Product-Version: 30
+Date: 8/1/2024
+Categories: normality distribution 
+Plugins: R
+R-Packages: moments,MVN,MASS,nortest,psych,boot,energy
+Translation-Catalogues: 

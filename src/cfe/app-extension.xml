@@ -1,0 +1,179 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!--***********************************************************************--><!----><!--Licensed Materials - Property of IBM--><!----><!--IBM SPSS Products: Modeler Common--><!----><!--(C) Copyright IBM Corp. 1989, 2024--><!----><!--US Government Users Restricted Rights - Use, duplication or disclosure--><!--restricted by GSA ADP Schedule Contract with IBM Corp.--><!----><!--***********************************************************************--><AppExtension xmlns="http://xml.spss.com/pasw/extension" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" debug="false" version="8.0" xsi:schemaLocation="http://xml.spss.com/pasw/extension http://xml.spss.com/pasw/extension/AppExtension.xsd">
+  <ExtensionDetails copyright="(c) 2024 SPSS, Inc." description="Application extension for PySpark" id="normalityanalysis" label="Normality Analysis" provider="IBM SPSS, Inc." providerTag="SPSS"/>
+  <ExtensionName name="extension"/>
+  <Application name="statistics">
+    <AppFeature dialogTitleKey="normalityanalysis" featureId="normalityanalysis">
+      <Validations/>
+      <AppDetails>
+        <ProcedureInfo titleKey="normalityanalysis_proc_title"/>
+        <AppUserInterface>
+          <Menus>
+            <MenuItem actionIDToName="" featureId="normalityanalysis" imagePath="C:\Users\jkpec\AppData\Local\Temp\spss2100\_uibuilder3648906176752553796.tmp\defaultExtensionDialog.png" installToGlobalCustomMenu="false" isSpssNative="false" menuFrame="all" menuVersion="2" offset="5" previousId="analyze_desc_stat_percentiles" resourceKey="normalityanalysis" separatorAfter="none" separatorBefore="false" showIcon="false" spssMenu="Analyze.analyze_desc_stat"/>
+          </Menus>
+        </AppUserInterface>
+        <SyntaxGeneration syntaxTemplate="STATS NORMALITY ANALYSIS&#13;&#10;    %%distvariables_syntax%%&#13;&#10;    %%scaledata_syntax%% %%desc_syntax%% %%unitests_syntax%% %%mvntests_syntax%%&#13;&#10;    %%uniplots_syntax%% %%multivarplots_syntax%% %%bootstrapreps_syntax%%&#13;&#10;    %%showoutliers_syntax%% %%idvar_syntax%% %%outlierdetection_syntax%% %%noutliers_syntax%%.">
+          <SyntaxItem name="distvariables_syntax" syntax="VARIABLES=%%distvariables%%">
+            <SyntaxCondition condition="isNotEmpty" operand="true" property="distvariables"/>
+          </SyntaxItem>
+          <SyntaxProperty delimiter=" " name="distvariables" syntax="%%ThisValue%%"/>
+          <SyntaxProperty name="unitests" syntax="%%ThisValue%%"/>
+          <SyntaxItem name="unitests_syntax" syntax="%%unitests_syntax_with_or%%"/>
+          <SyntaxItem name="item_12_syntax" syntax="AD">
+            <SyntaxCondition condition="equals" operand="true" property="item_12"/>
+          </SyntaxItem>
+          <SyntaxProperty name="item_12" syntax="%%ThisValue%%"/>
+          <SyntaxItem name="sw_syntax" syntax="SW">
+            <SyntaxCondition condition="equals" operand="true" property="sw"/>
+          </SyntaxItem>
+          <SyntaxProperty name="sw" syntax="%%ThisValue%%"/>
+          <SyntaxItem name="cvm_syntax" syntax="CVM">
+            <SyntaxCondition condition="equals" operand="true" property="cvm"/>
+          </SyntaxItem>
+          <SyntaxProperty name="cvm" syntax="%%ThisValue%%"/>
+          <SyntaxItem name="sf_syntax" syntax="SF">
+            <SyntaxCondition condition="equals" operand="true" property="sf"/>
+          </SyntaxItem>
+          <SyntaxProperty name="sf" syntax="%%ThisValue%%"/>
+          <SyntaxItem name="lille_syntax" syntax="LILLIE">
+            <SyntaxCondition condition="equals" operand="true" property="lille"/>
+          </SyntaxItem>
+          <SyntaxProperty name="lille" syntax="%%ThisValue%%"/>
+          <SyntaxItem name="unitests_syntax_with_or" syntax="UNIVARIATETESTS=%%item_12_syntax%% %%sw_syntax%% %%cvm_syntax%% %%sf_syntax%% %%lille_syntax%% ">
+            <Or>
+              <SyntaxCondition condition="equals" operand="true" property="item_12"/>
+              <SyntaxCondition condition="equals" operand="true" property="sw"/>
+              <SyntaxCondition condition="equals" operand="true" property="cvm"/>
+              <SyntaxCondition condition="equals" operand="true" property="sf"/>
+              <SyntaxCondition condition="equals" operand="true" property="lille"/>
+            </Or>
+          </SyntaxItem>
+          <SyntaxProperty name="uniplots" syntax="%%ThisValue%%"/>
+          <SyntaxItem name="uniplots_syntax" syntax="%%uniplots_syntax_with_or%%"/>
+          <SyntaxItem name="histogram_syntax" syntax="HISTOGRAM">
+            <SyntaxCondition condition="equals" operand="true" property="histogram"/>
+          </SyntaxItem>
+          <SyntaxProperty name="histogram" syntax="%%ThisValue%%"/>
+          <SyntaxItem name="box_syntax" syntax="BOX">
+            <SyntaxCondition condition="equals" operand="true" property="box"/>
+          </SyntaxItem>
+          <SyntaxProperty name="box" syntax="%%ThisValue%%"/>
+          <SyntaxItem name="qq_syntax" syntax="QQ">
+            <SyntaxCondition condition="equals" operand="true" property="qq"/>
+          </SyntaxItem>
+          <SyntaxProperty name="qq" syntax="%%ThisValue%%"/>
+          <SyntaxItem name="scallter_syntax" syntax="SCATTER">
+            <SyntaxCondition condition="equals" operand="true" property="scallter"/>
+          </SyntaxItem>
+          <SyntaxProperty name="scallter" syntax="%%ThisValue%%"/>
+          <SyntaxItem name="uniplots_syntax_with_or" syntax="UNIPLOTS=%%histogram_syntax%% %%box_syntax%% %%qq_syntax%% %%scallter_syntax%% ">
+            <Or>
+              <SyntaxCondition condition="equals" operand="true" property="histogram"/>
+              <SyntaxCondition condition="equals" operand="true" property="box"/>
+              <SyntaxCondition condition="equals" operand="true" property="qq"/>
+              <SyntaxCondition condition="equals" operand="true" property="scallter"/>
+            </Or>
+          </SyntaxItem>
+          <SyntaxItem name="scaledata_syntax" syntax="/OUTPUT SCALEDATA=YES">
+            <SyntaxCondition condition="equals" operand="true" property="scaledata"/>
+          </SyntaxItem>
+          <SyntaxItem name="scaledata_syntax" syntax="/OUTPUT SCALEDATA=NO">
+            <SyntaxCondition condition="equals" operand="false" property="scaledata"/>
+          </SyntaxItem>
+          <SyntaxProperty name="scaledata" syntax="%%ThisValue%%"/>
+          <SyntaxItem name="desc_syntax" syntax="DESCRIPTIVES=YES">
+            <SyntaxCondition condition="equals" operand="true" property="desc"/>
+          </SyntaxItem>
+          <SyntaxProperty name="desc" syntax="%%ThisValue%%"/>
+          <SyntaxProperty name="mvntests" syntax="%%ThisValue%%"/>
+          <SyntaxItem name="mvntests_syntax" syntax="%%mvntests_syntax_with_or%%"/>
+          <SyntaxItem name="item_22_syntax" syntax="HZ">
+            <SyntaxCondition condition="equals" operand="true" property="item_22"/>
+          </SyntaxItem>
+          <SyntaxProperty name="item_22" syntax="%%ThisValue%%"/>
+          <SyntaxItem name="item_23_syntax" syntax="MARDIA">
+            <SyntaxCondition condition="equals" operand="true" property="item_23"/>
+          </SyntaxItem>
+          <SyntaxProperty name="item_23" syntax="%%ThisValue%%"/>
+          <SyntaxItem name="item_24_syntax" syntax="ROYSTON">
+            <SyntaxCondition condition="equals" operand="true" property="item_24"/>
+          </SyntaxItem>
+          <SyntaxProperty name="item_24" syntax="%%ThisValue%%"/>
+          <SyntaxItem name="item_21_syntax" syntax="DH">
+            <SyntaxCondition condition="equals" operand="true" property="item_21"/>
+          </SyntaxItem>
+          <SyntaxProperty name="item_21" syntax="%%ThisValue%%"/>
+          <SyntaxItem name="energye_syntax" syntax="ENERGY">
+            <SyntaxCondition condition="equals" operand="true" property="energye"/>
+          </SyntaxItem>
+          <SyntaxProperty name="energye" syntax="%%ThisValue%%"/>
+          <SyntaxItem name="mvntests_syntax_with_or" syntax="MVNTESTS=%%item_22_syntax%% %%item_23_syntax%% %%item_24_syntax%% %%item_21_syntax%% %%energye_syntax%% ">
+            <Or>
+              <SyntaxCondition condition="equals" operand="true" property="item_22"/>
+              <SyntaxCondition condition="equals" operand="true" property="item_23"/>
+              <SyntaxCondition condition="equals" operand="true" property="item_24"/>
+              <SyntaxCondition condition="equals" operand="true" property="item_21"/>
+              <SyntaxCondition condition="equals" operand="true" property="energye"/>
+            </Or>
+          </SyntaxItem>
+          <SyntaxItem name="bootstrapreps_syntax" syntax="BOOTSTRAPREPS=%%bootstrapreps%%">
+            <And>
+              <SyntaxCondition condition="equals" operand="true" property="energye"/>
+              <SyntaxCondition condition="isNotEmpty" operand="true" property="bootstrapreps"/>
+            </And>
+          </SyntaxItem>
+          <SyntaxProperty name="bootstrapreps" syntax="%%ThisValue%%"/>
+          <SyntaxProperty name="multivarplots" syntax="%%ThisValue%%"/>
+          <SyntaxItem name="multivarplots_syntax" syntax="%%multivarplots_syntax_with_or%%"/>
+          <SyntaxItem name="item_30_syntax" syntax="QQ">
+            <SyntaxCondition condition="equals" operand="true" property="item_30"/>
+          </SyntaxItem>
+          <SyntaxProperty name="item_30" syntax="%%ThisValue%%"/>
+          <SyntaxItem name="item_29_syntax" syntax="PERSP">
+            <SyntaxCondition condition="equals" operand="true" property="item_29"/>
+          </SyntaxItem>
+          <SyntaxProperty name="item_29" syntax="%%ThisValue%%"/>
+          <SyntaxItem name="item_28_syntax" syntax="CONTOUR">
+            <SyntaxCondition condition="equals" operand="true" property="item_28"/>
+          </SyntaxItem>
+          <SyntaxProperty name="item_28" syntax="%%ThisValue%%"/>
+          <SyntaxItem name="multivarplots_syntax_with_or" syntax="MULTIVARPLOTS=%%item_30_syntax%% %%item_29_syntax%% %%item_28_syntax%% ">
+            <Or>
+              <SyntaxCondition condition="equals" operand="true" property="item_30"/>
+              <SyntaxCondition condition="equals" operand="true" property="item_29"/>
+              <SyntaxCondition condition="equals" operand="true" property="item_28"/>
+            </Or>
+          </SyntaxItem>
+          <SyntaxItem name="idvar_syntax" syntax="IDVAR=%%idvar%%">
+            <And>
+              <SyntaxCondition condition="equals" operand="true" property="showoutliers"/>
+              <SyntaxCondition condition="isNotEmpty" operand="true" property="idvar"/>
+            </And>
+          </SyntaxItem>
+          <SyntaxProperty name="idvar" syntax="%%ThisValue%%"/>
+          <SyntaxProperty name="outlierdetection" syntax="%%ThisValue%%"/>
+          <SyntaxItem name="outlierdetection_syntax" syntax="%%outlierdetection_syntax_syntax%%">
+            <SyntaxCondition condition="equals" operand="true" property="showoutliers"/>
+          </SyntaxItem>
+          <SyntaxItem name="outlierdetection_syntax_syntax" syntax="OUTLIERDETECTION=QUAN">
+            <SyntaxCondition condition="equals" operand="item_39_a" property="outlierdetection"/>
+          </SyntaxItem>
+          <SyntaxItem name="outlierdetection_syntax_syntax" syntax="OUTLIERDETECTION=ADJ">
+            <SyntaxCondition condition="equals" operand="item_39_b" property="outlierdetection"/>
+          </SyntaxItem>
+          <SyntaxItem name="noutliers_syntax" syntax="NOUTLIERS=%%noutliers%%">
+            <And>
+              <SyntaxCondition condition="equals" operand="true" property="showoutliers"/>
+              <SyntaxCondition condition="isNotEmpty" operand="true" property="noutliers"/>
+            </And>
+          </SyntaxItem>
+          <SyntaxProperty name="noutliers" syntax="%%ThisValue%%"/>
+          <SyntaxItem name="showoutliers_syntax" syntax="/OUTLIERS ">
+            <SyntaxCondition condition="equals" operand="true" property="showoutliers"/>
+          </SyntaxItem>
+          <SyntaxProperty name="showoutliers" syntax="%%ThisValue%%"/>
+        </SyntaxGeneration>
+      </AppDetails>
+    </AppFeature>
+  </Application>
+</AppExtension>
