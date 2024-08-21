@@ -12,7 +12,7 @@ Description: This procedure calculates several tests for univariate no
  l distribution.  It can be used for one or more variables.
 Author: Jon K Peck
 Version: 1.0.0
-Product-Version: 28
+Product-Version: 30
 Date: 8/1/2024
 Categories: normality distribution 
 Plugins: R
