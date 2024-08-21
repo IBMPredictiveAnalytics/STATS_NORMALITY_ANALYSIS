@@ -2,7 +2,7 @@
 <!--***********************************************************************--><!----><!--Licensed Materials - Property of IBM--><!----><!--IBM SPSS Products: Modeler Common--><!----><!--(C) Copyright IBM Corp. 1989, 2024--><!----><!--US Government Users Restricted Rights - Use, duplication or disclosure--><!--restricted by GSA ADP Schedule Contract with IBM Corp.--><!----><!--***********************************************************************--><Extension xmlns="http://xml.spss.com/pasw/extension" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" debug="false" version="8.0" xsi:schemaLocation="http://xml.spss.com/pasw/extension http://xml.spss.com/pasw/extension/ExtensionSpecification.xsd">
   <ExtensionDetails description="Created by CDB" id="normalityanalysis" label="Normality Analysis" provider="IBM SPSS, Inc." providerTag="spss" version="8.0"/>
   <Resources>
-    <Bundle id="bundle318" path="normalityanalysis" type="properties"/>
+    <Bundle id="bundle449" path="normalityanalysis" type="properties"/>
     <JarFile id="jar" path="cdb_peer.jar"/>
     <HelpInfo id="HTMLHelp" type="HTMLHelp"/>
   </Resources>
@@ -40,7 +40,7 @@
       <ImportProperties context="rbuilder"/>
       <Property defaultValue="" name="modelName" valueType="string"/>
       <Property defaultValue="false" name="modelRename" valueType="boolean"/>
-      <Property defaultValue="STATS NORMALITY ANALYSIS&#13;&#10;    %%distvariables%%&#13;&#10;    %%scaledata%% %%desc%% %%unitests%% %%mvntests%%&#13;&#10;    %%uniplots%% %%multivarplots%% %%bootstrapreps%%&#13;&#10;    %%showoutliers%% %%idvar%% %%outlierdetection%% %%noutliers%%." name="script" valueType="string"/>
+      <Property defaultValue="STATS NORMALITY ANALYSIS&#13;&#10; %%distvariables%%&#13;&#10; %%scaledata%% %%desc%% %%unitests%% %%mvntests%%&#13;&#10; %%uniplots%%&#13;&#10; %%multivarplots%% %%bootstrapreps%%&#13;&#10; %%showoutliers%% %%idvar%% %%outlierdetection%% %%noutliers%%." name="script" valueType="string"/>
       <Property defaultValue="false" name="canScore" valueType="boolean"/>
       <Property defaultValue="" name="scoringScript" valueType="string"/>
       <Property name="addOns" valueType="string"/>
@@ -49,7 +49,7 @@
       <Property defaultValue="MODEL" name="nodeType" valueType="string"/>
       <Property defaultValue="MODELING" name="paletteType" valueType="string"/>
       <Property defaultValue="%%ThisValue%%" name="vars_syntax" valueType="string"/>
-      <Property isList="true" name="distvariables" valueType="fieldName"/>
+      <Property isList="true" min="2" name="distvariables" valueType="fieldName"/>
       <Property defaultValue=" " name="distvariables_separator" valueType="string"/>
       <Property defaultValue="VARIABLES=%%ThisValue%%" name="distvariables_syntax" valueType="string"/>
       <Property defaultValue="%%ThisValue%%" name="testsandplots_syntax" valueType="string"/>

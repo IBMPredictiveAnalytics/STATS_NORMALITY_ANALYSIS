@@ -9,10 +9,10 @@
         <ProcedureInfo titleKey="normalityanalysis_proc_title"/>
         <AppUserInterface>
           <Menus>
-            <MenuItem actionIDToName="" featureId="normalityanalysis" imagePath="C:\Users\jkpec\AppData\Local\Temp\spss2100\_uibuilder3648906176752553796.tmp\defaultExtensionDialog.png" installToGlobalCustomMenu="false" isSpssNative="false" menuFrame="all" menuVersion="2" offset="5" previousId="analyze_desc_stat_percentiles" resourceKey="normalityanalysis" separatorAfter="none" separatorBefore="false" showIcon="false" spssMenu="Analyze.analyze_desc_stat"/>
+            <MenuItem actionIDToName="" featureId="normalityanalysis" imagePath="C:\Users\jkpec\AppData\Local\Temp\spss11968\_uibuilder6502857893880646246.tmp\defaultExtensionDialog.png" installToGlobalCustomMenu="false" isSpssNative="false" menuFrame="all" menuVersion="2" offset="5" previousId="analyze_desc_stat_percentiles" resourceKey="normalityanalysis" separatorAfter="none" separatorBefore="false" showIcon="false" spssMenu="Analyze.analyze_desc_stat"/>
           </Menus>
         </AppUserInterface>
-        <SyntaxGeneration syntaxTemplate="STATS NORMALITY ANALYSIS&#13;&#10;    %%distvariables_syntax%%&#13;&#10;    %%scaledata_syntax%% %%desc_syntax%% %%unitests_syntax%% %%mvntests_syntax%%&#13;&#10;    %%uniplots_syntax%% %%multivarplots_syntax%% %%bootstrapreps_syntax%%&#13;&#10;    %%showoutliers_syntax%% %%idvar_syntax%% %%outlierdetection_syntax%% %%noutliers_syntax%%.">
+        <SyntaxGeneration syntaxTemplate="STATS NORMALITY ANALYSIS&#13;&#10; %%distvariables_syntax%%&#13;&#10; %%scaledata_syntax%% %%desc_syntax%% %%unitests_syntax%% %%mvntests_syntax%%&#13;&#10; %%uniplots_syntax%%&#13;&#10; %%multivarplots_syntax%% %%bootstrapreps_syntax%%&#13;&#10; %%showoutliers_syntax%% %%idvar_syntax%% %%outlierdetection_syntax%% %%noutliers_syntax%%.">
           <SyntaxItem name="distvariables_syntax" syntax="VARIABLES=%%distvariables%%">
             <SyntaxCondition condition="isNotEmpty" operand="true" property="distvariables"/>
           </SyntaxItem>
