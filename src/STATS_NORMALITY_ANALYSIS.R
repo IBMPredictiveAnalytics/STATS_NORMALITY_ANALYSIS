@@ -9,7 +9,7 @@
 # version 1.0.0
 
 # history
-# 31-jul-2024 original version
+# 7-aug-2024 original version
 
 loadmsg = "The R %s package is required but could not be loaded."
 tryCatch(suppressWarnings(library(MVN, warn.conflicts=FALSE)), error=function(e){
@@ -158,6 +158,21 @@ casecorrect = function(vlist, warns) {
     return(correctednames)
 }
 
+reorderbyvar = function(ut, variables) {
+    # return the data frame in order of the variables
+    # ut is a data frame with the first column containing variable names
+    # variables is a list of variable names in the desired order
+    
+    # mvn returns its output with a leading blank 
+    # on the variable names column values, so remove them
+    # make the first column a factor with levels in order of variables
+    uu = ordered(trimws(ut[[1]]), levels=variables)
+    udfbind = cbind(uu, ut[-1])
+    # sort the data frame by varnames
+    udfbind = udfbind[order(udfbind[[1]]),]
+    return(udfbind)
+}
+
 
 procname=gtxt("Normality Analysis")
 warningsprocname = gtxt("Normality Analysis")
@@ -182,14 +197,25 @@ domvn<-function(idvar=NULL, variables, mvntests=NULL, univariatetests=NULL, boot
     for (item in univariatetests) {ut[[item]] = univartests[[item]]}   # case correct test keywords
     univariatetests = ut
     spsspkg.StartProcedure(gtxt("Normality Analylsis"),"STATS NORMALITY ANALYSIS")
-    variables = casecorrect(variables, warns)  # get data api requires case match
+    
+    # correct variable name case, including the id variable, if any
+    variables = casecorrect(c(variables, idvar), warns)  # get data api requires case match
+    if (!is.null(idvar)) {
+        idvar = variables[[length(variables)]]
+        variables = variables[-length(variables)]
+    }
+
     splitvars = spssdata.GetSplitVariableNames()
     nsplitvars = length(splitvars)
     if (length(intersect(tolower(variables), tolower(splitvars))) > 0) {
         warns$warn(gtxt("Split variables cannot be included in the list of variables to analyze"), dostop=TRUE)
     }
 
+    # various places in mvn just fail or give wrong results if only one variable
     nvars = length(variables)
+    if (nvars < 2) {
+        warns$warn(gtxt("At least two variables must be specified"), dostop=TRUE)
+    }
     nallvars = nvars
     if (length(splitvars) > 0) {
         needsplittbl = TRUE
@@ -213,10 +239,14 @@ domvn<-function(idvar=NULL, variables, mvntests=NULL, univariatetests=NULL, boot
         warns$warn(gtxt("Contour and Perspective plots are limited to two variables.  The first two will be plotted"),
             dostop=FALSE)
     }
+  
 
     # get all the variables, including split vars but drop split vars from dta after extracting the split values.
     # factor mode is "labels" in order to pick up labelled split values, if there are splits.
     # procedure will only use complete cases.
+    # SPSS date variables are not converted via rDate=POSIXct, because MVT code does not hanndle
+    # date variables correctly
+    
     while (!spssdata.IsLastSplit()) {
         # if (is.null(idvar)) {
         #     dta = spssdata.GetSplitDataFromSPSS(c(idvar, variables, splitvars), missingValueToNA=TRUE, factorMode="labels")
@@ -227,8 +257,18 @@ domvn<-function(idvar=NULL, variables, mvntests=NULL, univariatetests=NULL, boot
         if (is.null(idvar)) {
             dta = spssdata.GetSplitDataFromSPSS(c(variables, splitvars), missingValueToNA=TRUE, factorMode="labels")
         } else {
-            dta = spssdata.GetSplitDataFromSPSS(c(variables, splitvars), missingValueToNA=TRUE, factorMode="labels",
-                                                row.label=idvar)
+            # this will fail if id values are not unique
+            tryCatch(
+            {dta = spssdata.GetSplitDataFromSPSS(c(variables, splitvars), missingValueToNA=TRUE, factorMode="labels",
+                row.label=idvar)
+            },
+            error = function(e) {
+                warns$warn(e, dostop=TRUE)
+            } 
+            # warning = function(e) {
+            #     warns$warn(e, dostop=TRUE)
+            # }
+            )
         }
 
         splitnumber = splitnumber + 1
@@ -242,6 +282,13 @@ domvn<-function(idvar=NULL, variables, mvntests=NULL, univariatetests=NULL, boot
         } else {
             splitprefix = ""
         }
+
+        if (scaledata) {
+            dta = scale(dta)
+            scaledata2 = TRUE
+        } else {
+            scaledata2 = FALSE
+        }
         
         if (any(sapply(dta, is.factor))) {
               warns$warn(gtxtf("Categorical variables cannot be used in this procedure"), dostop=TRUE)
@@ -254,53 +301,23 @@ domvn<-function(idvar=NULL, variables, mvntests=NULL, univariatetests=NULL, boot
         caption = gtxtf("Computed by R MVN package, version %s", packageVersion("mvn"))
         
         if (desc && nvars >= 2) {
-                desctable = suppressWarnings(mvn(dta, scale=scaledata, desc=TRUE)$Descriptives)
-                if (scaledata) {
-                    caption = gtxt("Variables are standardized")
-                }
-                else {
-                    caption = gtxt("Variables are not standardized")
-                }
-                colnames(desctable) = c(gtxt("n"), gtxt("Mean"), gtxt("Std.Dev."), gtxt("Median"), gtxt("Min"),
-                    gtxt("Max"), gtxt("25th"), gtxt("75th"), gtxt("Skewness"), gtxt("Kurtosis"))
-                spsspivottable.Display(desctable, 
-                    title=gtxt("Descriptive Statistics"),
-                    templateName="UNIVARIATESTATS",
-                    isSplit=TRUE,
-                    rowdim = gtxt("Variables"), 
-                    hiderowdimlabel=FALSE, 
-                    hidecoldimtitle=TRUE,
-                    format=formatSpec.GeneralStat,
-                    caption=gtxt(caption)
-                )
+            dodesc(dta, scaledata2, caption)
         }
     
         # mvn insists on a univariate and a multivariate test or raises an error
         # Univariate normality tests
         if (length(univariatetests) > 0) {
-            ut = data.frame('Variable'=NULL, 'Test'=NULL, 'Statistic'=NULL, 'p Value'=NULL)
-            for (item in univariatetests) {
-                tryCatch( {
-                    res = suppressWarnings(mvn(dta, univariateTest=item, scale=scaledata, desc=FALSE, mvnTest="mardia"))   # ignore the mandatory mvnTest
-                    ut = rbind(ut, res$univariateNormality[c(2, 1, 3, 4)])
-                }, error = function(e) {warns$warn(gtxtf("Test %s cannot be calculated", item), dostop=FALSE)}
-                )
-            }
-            # for translation...
-            colnames(ut) = c(gtxt("Variable"), gtxt("Test"), gtxt("Statistic"), gtxt("P Value"))
-            spsspivottable.Display(ut,
-                  title=gtxt("Univariate Tests"),
-                  templateName="UNIVARIATENORMALITY",
-                  isSplit=TRUE,
-                  rowdim = gtxt("Variables"), 
-                  hiderowdimlabel=TRUE, 
-                  hidecoldimtitle=TRUE,
-                  format=formatSpec.GeneralStat,
-                  caption=caption)
-            }
+            douniv(dta, univariatetests, scaledata2, caption, variables)
+        }
+
             
             if (length(mvntests) > 0) {
-                res = mvtestresults(dta, mvntests, bootstrapreps, scaledata)
+                tryCatch({
+                    res = mvtestresults(dta, mvntests, bootstrapreps, scaledata2)
+                },
+                error=function(e) {
+                warns$warn(gtxt("Multivariate tests cannot be calculated.\n Perhaps too few complete cases, too little variance, or too highly correlated variables"), dostop=TRUE)}
+                )
                 mt = res[[1]]
                 # for translation
                 colnames(mt) = c(gtxt("Test", "Statistic", "P Value"))
@@ -318,70 +335,10 @@ domvn<-function(idvar=NULL, variables, mvntests=NULL, univariatetests=NULL, boot
                     caption = caption)
             }
 
-        # outliers
-        if (noutliers > 0) {
-            spssRGraphics.SetGraphicsLabel(gtxtf("%s Normality Analysis - Outliers", splitprefix))
-            ntoshow = min(noutliers, nrow(res$multivariateOutliers))
-            res = suppressWarnings(mvn(dta, subset=NULL, scale=scaledata, 
-                multivariateOutlierMethod = outlierdetection, showOutliers=TRUE))
-            oo = data.frame(res$multivariateOutliers[2])
-            oo = head(oo, noutliers)
-            colnames(oo) = gtxt("Mahalanobis Distance")
-            spsspivottable.Display(
-                oo,
-                title = gtxtf("Top %s Outliers Sorted by Mahalanobis Distance", noutliers),
-                templateName = "NORMALITYOUTLIERS",
-                rowdim = idvar,
-                hiderowdimtitle=FALSE,
-                hidecoldimtitle=TRUE,
-                caption = gtxtf("Detection Method: %s", outlierdetection)
-            )
-        }
-        
-        # graphics
-        # if (("contour" %in% multivarplots || "scatter" %in% multivarplots) && nvars > 2) {
-        #         warns$warn(gtxt("Contour and scatter plots cannot be used with more than two variables"), dostop=TRUE)
-        # }
-        if (needsplittbl) {
-            names(splittbl) = splitvars
-            spsspivottable.Display(
-                splittbl,
-                title = gtxtf("Table of Splits"),
-                templateName = "SPLITTABLE",
-                isSplit = FALSE,
-                hidecoldimtitle=TRUE,
-                rowlabels=as.character(seq(1:nrow(splittbl))),
-                caption = gtxtf("Use this table to identify splits in plots")
-            )
-        }
 
-        basename = gtxtf("%s Normality Univariate Plot", splitprefix)
-        spssRGraphics.SetGraphicsLabel(basename)
-        for (pl in uniplots) {
-            res = suppressWarnings(mvn(dta, univariatePlot = pl ))
-        }
-        
-        # multivariate plots
-        basename = gtxtf("%s Normality Multivariate Plot", splitprefix)
-        spssRGraphics.SetGraphicsLabel(basename)
-        if (nvars > 1) {
-            for (pl in multivarplots) {
-                if (pl == "qq") {
-                    res = mvn(data=dta, scale=scaledata, multivariatePlot="qq")
-                } else if (pl == "contour") {
-                    # if (nvars > 2) {
-                    #     warns$warn(gtxt("Contour plots are limited to two variables.  Plotting first two"), dostop = FALSE)
-                    # }
-                    res = mvn(dta[1:2], scale=scaledata, multivariatePlot="contour")
-                } else if (pl == "persp") {
-                    # if (nvars > 2) {
-                    #     warns$warn(gtxt("Perspective plots are limited to two variables.  Plotting first two"), dostop=FALSE)
-                    # }
-                    res =mvn(dta[1:2], scale=scaledata, multivariatePlot = "persp")
-                }
-            }
-        }
-    }
+        dographics(dta, needsplittbl, splittbl, splitvars, nvars,  scaledata, splitprefix, uniplots, multivarplots, 
+            noutliers, idvar, outlierdetection)
+}
     spssdata.CloseDataConnection()
 
 
@@ -390,6 +347,160 @@ domvn<-function(idvar=NULL, variables, mvntests=NULL, univariatetests=NULL, boot
     res <- tryCatch(rm(list=ls()),warning=function(e){return(NULL)})
 
 }
+
+
+dodesc = function(dta, scaledata, caption) {
+    tryCatch({desctable = suppressWarnings(mvn(dta, scale=FALSE, desc=TRUE))$Descriptives},
+             error=function(e){warns$warn(
+                 gtxt("Cannot compute descriptives due to data conditions.\n  Perhaps too few complete cases, too little variance, or too highly correlated variables"), dostop=TRUE)
+             }
+    )
+             
+    if (scaledata) {
+        caption = gtxt("Variables are standardized")
+    }
+    else {
+        caption = gtxt("Variables are not standardized")
+    }
+    colnames(desctable) = c(gtxt("n"), gtxt("Mean"), gtxt("Std.Dev."), gtxt("Median"), gtxt("Min"),
+                            gtxt("Max"), gtxt("25th"), gtxt("75th"), gtxt("Skewness"), gtxt("Kurtosis"))
+    spsspivottable.Display(desctable, 
+                           title=gtxt("Descriptive Statistics"),
+                           templateName="UNIVARIATESTATS",
+                           isSplit=TRUE,
+                           rowdim = gtxt("Variables"), 
+                           hiderowdimlabel=FALSE, 
+                           hidecoldimtitle=TRUE,
+                           format=formatSpec.GeneralStat,
+                           caption=gtxt(caption)
+    )
+}
+
+
+douniv = function(dta, univariatetests, scaledata, caption, variables) {
+    ###ut = data.frame('Variable'=NULL, 'Test'=NULL, 'Statistic'=NULL, 'p Value'=NULL)
+    ut =  data.frame(Variable=character(), Test=character(), Statistic=double(), 'p value'=double())
+    for (item in univariatetests) {
+        tryCatch({
+            res = suppressWarnings(mvn(dta, univariateTest=item, scale=FALSE, desc=FALSE, mvnTest="mardia"))   # ignore the mandatory mvnTest
+            ut = rbind(ut, res$univariateNormality[c(2, 1, 3, 4)])
+        }, 
+        error = function(e) {warns$warn(gtxtf("Test %s cannot be calculated", item), dostop=FALSE)}
+        )
+    }
+    ###save(ut, variables, univariatetests, file="c:/temp/mvnuni.rdata")
+    # for translation...
+    if (nrow(ut) > 0) {
+        ut = reorderbyvar(ut, variables)
+        colnames(ut) = c(gtxt("Variable"), gtxt("Test"), gtxt("Statistic"), gtxt("P Value"))
+        spsspivottable.Display(ut,
+                               title=gtxt("Univariate Tests"),
+                               templateName="UNIVARIATENORMALITY",
+                               isSplit=TRUE,
+                               hiderowdimtitle=TRUE, 
+                               hidecoldimtitle=TRUE,
+                               rowlabels=as.character(1:nrow(ut)),
+                               format=formatSpec.GeneralStat,
+                               caption=caption)
+    }
+}
+
+dographics = function(dta, needsplittbl, splittbl, splitvars, nvars, scaledata, splitprefix,  uniplots, multivarplots, noutliers, idvar, outlierdetection) {
+    if (needsplittbl) {
+        names(splittbl) = splitvars
+        spsspivottable.Display(
+            splittbl,
+            title = gtxtf("Table of Splits"),
+            templateName = "SPLITTABLE",
+            isSplit = FALSE,
+            rowdim = gtxt("Split"),
+            hiderowdimtitle=FALSE,
+            hidecoldimtitle=TRUE,
+            rowlabels=as.character(seq(1:nrow(splittbl))),
+            caption = gtxtf("Use this table to identify splits in plots")
+        )
+    }
+    
+        basename = gtxtf("%s Normality Univariate Plot", splitprefix)
+        spssRGraphics.SetGraphicsLabel(basename)
+        
+        # The univariate qq plot is documented as type="qq", but the mvn code expects "qqplot"
+        # The plot list is sorted, because, if box is not first, it gets
+        # stuffed into the end of a preceding type and may be very small.
+        # It is the only one where all the variables appear in a single plot.
+        
+        if (nvars < 2) {
+            warns$warn(gtxt("Plotting requires at least two variables"), dostop=TRUE)
+        }
+        uniplots = sort(uniplots)
+        for (pl in uniplots) {
+            if (pl == "qq") {
+                pl = "qqplot"
+            }
+            tryCatch({res = suppressWarnings(mvn(dta, univariatePlot = pl, scale=FALSE))
+            }, error = function(e) {
+                print(e)
+                 warns$warn(gtxt("Univariate plot cannot be completed.\n Perhaps too few complete cases, too little variance, or too highly correlated variables"), dostop=TRUE)
+                
+            }
+            )
+        }
+
+        # multivariate plots
+        basename = gtxtf("%s Normality Multivariate Plot", splitprefix)
+        spssRGraphics.SetGraphicsLabel(basename)
+        if (nvars > 1) {
+            for (pl in multivarplots) {
+                tryCatch({
+                    if (pl == "qq") {
+                        res = suppressWarnings(mvn(data=dta, scale=FALSE, multivariatePlot="qq"))
+                    } else if (pl == "contour") {
+                        res = suppressWarnings(mvn(dta[1:2], scale=FALSE, multivariatePlot="contour"))
+                    } else if (pl == "persp") {
+                        res =suppressWarnings(mvn(dta[1:2], scale=FALSE, multivariatePlot = "persp"))
+                    }
+                }, error = function(e) {
+                    warns$warn(gtxtf("Unable to produce requested plot: %s", pl))
+                }
+                )
+            }
+        }
+    spssRGraphics.SetGraphicsLabel(gtxtf("%s Normality Analysis - Outliers", splitprefix))
+    if (noutliers > 0) {
+            tryCatch(
+                {res = 
+                    suppressWarnings(mvn(dta, subset=NULL, scale=FALSE, 
+                    multivariateOutlierMethod = outlierdetection, showOutliers=TRUE))
+                },
+                error = function(e) {
+                    warns$warn(gtxt("Outlier analysis cannot be completed.\n Perhaps too few complete cases, too little variance, or too highly correlated variables"), dostop=TRUE)
+                }
+            )
+        ntoshow = min(noutliers, nrow(res$multivariateOutliers))
+        if (ntoshow == 0) {
+            warns$warn(gtxt("There are no outliers in the data"))
+        } else {
+            oo = data.frame(res$multivariateOutliers[2])
+            tryCatch(suppressWarnings(hist(oo[[1]], main = gtxt("Outlier Distribution"),
+                 xlab = gtxt("Mahalanobis Distance"))),
+            error = function(e) {}
+            )
+            oo = head(oo, noutliers)
+            colnames(oo) = gtxt("Mahalanobis Distance")
+            spsspivottable.Display(
+                oo,
+                title = gtxt("Top Outliers Sorted by Mahalanobis Distance"),
+                templateName = "NORMALITYOUTLIERS",
+                rowdim = idvar,
+                hiderowdimtitle=FALSE,
+                hidecoldimtitle=TRUE,
+                caption = gtxtf("Detection Method: %s", outlierdetection)
+            )
+        }
+    }
+}
+
+
 
 mvtestresults <- function(dta, mvntests, bootstrapreps, scaledata) {
     # return a list with a data frame containing the multivariate test results and the d.f. for dh or NULL
@@ -405,7 +516,7 @@ mvtestresults <- function(dta, mvntests, bootstrapreps, scaledata) {
     row = 1
     dhdegf = NULL # for Doornik-Hansen
     for (item in mvntests) {
-        mvt = suppressWarnings(mvn(dta, item, scale=scaledata, desc=FALSE, R=bootstrapreps, univariateTest="AD", subset=NULL)) # ignore univariate
+        mvt = suppressWarnings(mvn(dta, item, scale=FALSE, desc=FALSE, R=bootstrapreps, univariateTest="AD", subset=NULL)) # ignore univariate
         # can't use rbind because column names vary by test
 
         if (item == "dh") {
@@ -422,15 +533,27 @@ mvtestresults <- function(dta, mvntests, bootstrapreps, scaledata) {
             row = row + 1
         } else {  # mardia has test and p value as factors
             mt[row, 1] = mvt$multivariateNormality$Test[1]
-            mt[row, 2] = round4(as.numeric(levels(mvt$multivariateNormality$Statistic))[[1]])
-            mt[row, 3] = round4(as.numeric(levels(mvt$multivariateNormality$"p value"))[[1]])
+            mt[row, 2] = round4(as.numeric(levels(mvt$multivariateNormality$Statistic))[[1]])[1]
+            pvs = levels(mvt$multivariateNormality$"p value")
+            if (length(pvs) == 1) {
+                mt[row, 3] = "--"
+            } else {
+                mt[row, 3] = round4(as.numeric(levels(mvt$multivariateNormality$"p value"))[[1]])
+            }
+            
             if (mt[row, 3] == 0) {
                 mt[row, 3] = "<.001"
             }
             row = row + 1
             mt[row, 1] = mvt$multivariateNormality$Test[2]
-            mt[row, 2] =round4(as.numeric(levels(mvt$multivariateNormality$Statistic[[1]])[[2]]))
-            mt[row, 3] = "--"
+            mt[row, 2] = round4(as.numeric(levels(mvt$multivariateNormality$Statistic[[1]])[[2]]))
+            pvs = levels(mvt$multivariateNormality$"p value")
+
+            if (length(pvs) == 1) {
+                mt[row, 3] = "--"
+            } else {
+                mt[row, 3] = round4(as.numeric(levels(mvt$multivariateNormality$"p value"[[2]])))[2]
+            }
             row = row + 1
         }
     }
@@ -465,6 +588,11 @@ Run<-function(args){
     ###options(error = function() traceback())
 
     # note SW, CVM Lillie, SF, AD
+    
+    # variable keywords are typed as varname instead of existingvarlist in
+    # order to allow for case correction of names later, since the data fetching apis are
+    # case sensitive
+    
     oobj <- spsspkg.Syntax(templ=list(
                 spsspkg.Template("VARIABLES", subc="", ktype="varname", var="variables", islist=TRUE),
                 
@@ -480,7 +608,7 @@ Run<-function(args){
                     vallist=list("qq", "persp", "contour"),  islist=TRUE),
                 spsspkg.Template("DESCRIPTIVES", subc="OUTPUT", ktype="bool", var="desc", islist=FALSE),
 
-                spsspkg.Template("IDVAR", subc="OUTLIERS", ktype="existingvarlist", var="idvar", islist=FALSE),
+                spsspkg.Template("IDVAR", subc="OUTLIERS", ktype="varname", var="idvar", islist=FALSE),
                 spsspkg.Template("NOUTLIERS", subc="OUTLIERS", ktype="int", var="noutliers", islist=FALSE),
                 spsspkg.Template("OUTLIERDETECTION", subc="OUTLIERS", ktype="str", var="outlierdetection",
                     vallist=list("quan", "adj"),  islist=FALSE)
@@ -510,5 +638,3 @@ helper = function(cmdname) {
     if (exists("spsspkg.helper")) {
     assign("helper", spsspkg.helper)
 }
-
-#}
