@@ -1,0 +1,152 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+
+<html>
+<head>
+  <meta http-equiv="Content-Type" content=
+  "text/html; charset=utf-8">
+
+  <title>Normality Analysis</title>
+  <style type="text/css">
+
+  <!-- 
+
+  H1 {font-weight:bold; color:#006699; font-size:125%; }
+  H2 {font-weight:bold; color:#006699; font-size:110%; }
+  TABLE {font-size:100%;}
+
+  /* paragraph tags */
+  .step {text-indent: -1.3em; margin-left:1.3em; margin-top: 0px;}
+  .menuselection {margin-left:10px}
+  .bullet {list-style-type: disc;margin-top:12px; margin-left:36px; text-indent:-1em; }
+  .codeblock {background-color: #ffffe6; display:block; margin-left:5px; padding:5px;}
+
+  /* inline tags */
+  .screen {font-weight:bold; color:#408080}                       /*** used refer to on-screen text ***/
+  .name {font-style: italic}                                                       /*** used to tag names, such as variable names, file names, and so forth ***/
+  .runinhead {font-weight: bold} 
+  .superscript {vertical-align:super; font-size:80%}
+  .subscript {vertical-align:sub; font-size:80%}
+
+
+  --> 
+  </style>
+</head>
+
+<body>
+  <h1>Normality Analysis</h1>
+  <p>Use this dialog to assess the univariate and multivariate normality of a set of variables.  It provides a number of test statistics, plots, and an outlier analysis.  Choose the variables whose distribution
+  will be analyzed on the first tab. At least two variables must be specified.
+  Choose the desired tests, plots, and summary statistics on the <i>Tests and Plots</i> tab, and choose the desired outlier analysis on the <i>Outliers</i> tab.  Only variables with a scale measurement level can be analyzed,
+  While there is no limit on the number of variables that can be analyzed, some plots only support two variables, and some may be hard to read with a large number of variables.</p>
+  
+  
+  <p>It may be helpful to use split files (<i>Data &gt;Split File</i>) in assessing normality for subgroups such as occur with ANOVA as a separate analyses is produced for each split.  If scaling, each split is scaled separately.  Split file variables cannot be included in the analysis list.</p>
+  <p>This procedure does not support case weights.  If there is a weight set, it will be ignored with a warning.  Only complete cases are analyzed, i.e., missing values are deleted listwise.  SPSS date variables are treated as plain numbers (the number of seconds since October 14, 1582).</p>
+  
+  <p>If the analysis leads to a need to transform variables in order to make their distribution more normal, the <i>Preprocess variables</i> extension command provides several transformation methods that may be used.  If not already installed, this command can be installed via <i>Extensions &gt; Extension Hub</i>.  It will appear on the <i>Transform</i> menu.</p>
+  
+  <h2>Tests and Plots</h2>
+  <p>Check the boxes for the desired univariate and multivariate tests.  See below for information about these tests.  The <i>Royston</i> and <i>Shapiro-Wilk</i> tests cannot be used with more than 5000 cases or fewer than 3.</p>
+  
+  <p>Check the boxes for the desired plots.  The <i>Perspective</i> and <i>Contour</i>
+  plots cannot be used for more than two variables.  If selected, those plots will
+  only be produced for the first two variables.</p>
+  
+  <p>Check the <i>Descriptive Statistics</i> box to produce a table of statistics
+  useful for normality analysis.</p>
+  
+  <p>Check the <i>Scale all variables</i> box to scale all the variables</p>
+  
+<h2>Outliers</h2>
+<p>Check the <i>Show multivariate outliers</i> box to produce a table of outliers and a corresponding Q-Q plot.  An ID variable must be specified for this output in order to identify the outlier points.
+The id values must be unique across cases.  The id variable must not be included in the distribution list.<p>
+
+<p>Choose either <i>Quantile Mahalanobis Distance</i> or <i>Adjusted Mahalanobis distance</i> for the outlier detection method.  Select the number of outliers to display.  The table lists these in descending order of distance.</p>
+
+<h1>Information on the Tests and Plots</h1>
+<p>A number of statistical tests, such as the Student's t-test and ANOVA assume
+normality.  If this assumption is violated, the results may not be valid.  However,
+in large samples, the Central Limit Theorem under general conditions 
+states that the distribution of sample means approximately follows a normal
+distribution, so the normality assumption is less important. </p>
+
+<h2>Univariate Tests</h2>
+<h3>Anderson-Darling Test</h3>
+<p>
+The Anderson Darling test is a statistical test that can be used to assess whether a data set follows a normal distribution or not. The test is based on the idea that if a data set is normally distributed, then the maximum difference between the cumulative distribution function of the data and the normal distribution should be minimized. So, the test statistic in this test is calculated based on the differences between the observed cumulative distribution function and the expected cumulative distribution function under the null hypothesis. The Anderson-Darling test is more sensitive to deviations from normality, especially in the tails of the distribution, making it better suited for detecting non-normal distributions. The p-value is used to determine the significance of the test statistic. A small p-value (typically less than 0.05 or 0.01) indicates that the null hypothesis can be rejected, suggesting that the sample does not follow the normal distribution.
+</p>
+<p><i>Example</i>:- The Anderson-Darling normality test finds extensive applications in quality control and process monitoring. In manufacturing and production environments, it is crucial to ensure that the processes are operating within specified limits and producing outputs that conform to quality standards. The Anderson-Darling test can be used to verify the normality assumption of the process data, which is a common requirement for many statistical process control techniques, such as control charts and so on. By checking the normality of process data, manufacturers can detect deviations from the expected distribution, which may indicate the presence of assignable causes or special causes of variation. This information can then be used to take corrective actions and bring the process back into a state of statistical control, ultimately improving product quality and reducing waste.</p>
+
+<h3>Shapiro-Wilk Test</h3>
+The Shapiro-Wilk test is used for testing univariate normality. This tests the null hypothesis that a set of samples came from a normally distributed population or not. The test statistic of Shapiro-Wilk test could be regarded as the ratio of two variance estimators, the best linear unbiased estimator (BLUE) and the maximum likelihood estimator (MLE). The p-value is used to determine the significance of the test statistic. A small p-value (typically less than 0.05 or 0.01) indicates that the null hypothesis can be rejected, suggesting that the sample does not follow the normal distribution.</p>
+
+<p><i>Example</i>:- If a teacher wants to analyze the test scores of a set of students to determine if the scores are normally distributed, then the Shapiro-Wilk test can be used to assess this. And this assessment is important because many statistical analysis assume normality of the data.</p>
+
+<h3>Shapiro-Francia Test</h3>
+The Shapiro –Francia test is an approximate test that is similar to the Shapiro –Wilk test for very large samples. The test statistic is also different in both tests. Comparison studies have concluded that the Shapiro–Francia variant actually exhibits more power to distinguish some alternative hypothesis. The p-value is used to determine the significance of the test statistic. A small p-value (typically less than 0.05 or 0.01) indicates that the null hypothesis can be rejected, suggesting that the sample does not follow the normal distribution.</p>
+<i>Example</i>:- If a company wants to analyze the customer satisfaction scores collected from various customers to determine if the scores are normally distributed, then Shapiro-Francia test could be used for this assessment of normality of data due to its computational efficiency for larger samples.</p>
+<h3>Cramér-von Mises’ Test</h3>
+<p>The Cramér-Von-Mises test evaluates the null hypothesis that a sample comes from a specified distribution, such as the normal distribution. It compares the empirical cumulative distribution function of the sample with the cumulative distribution function of the specified distribution. The test statistic is derived from the squared differences between the empirical cumulative distribution function (ECDF) of the sample and the cumulative distribution function (CDF) of the specified distribution, summed over all sample points. The p-value is used to determine the significance of the test statistic. A small p-value (typically less than 0.05 or 0.01) indicates that the null hypothesis can be rejected, suggesting that the sample does not follow the normal distribution.
+</p>
+<i>Example</i>:- If a retail company wants to analyze the annual sales figures of its stores to determine if the sales data is normally distributed, then the Cramér-von Mises test can be applied for the assessment.</p>
+<h3>Lilliefors (Kolmogorov-Smirnov) Test</h3>
+<p>The Kolmogorov-Smirnov (K-S) test is one of the goodness-of-fit tests for normality. It quantifies the maximum distance between the empirical distribution function and the cumulative normal distribution. The Lilliefors test for normality is an improvement on the Kolmogorov-Smirnov test correcting the K-S for small values at the tails of probability distributions. The Kolmogorov-Smirnov test with Lilliefors significance correction is based on the greatest discrepancy between the sample cumulative distribution and the normal cumulative distribution. Lilliefors Kolmogorov-Smirnov test is used especially when the population mean and standard deviation are not known, but instead are estimated from the sample data. The p-value is used to determine the significance of the test statistic. A small p-value (typically less than 0.05 or 0.01) indicates that the null hypothesis can be rejected, suggesting that the sample does not follow the normal distribution.</p>
+<p>This procedure only includes the Lillefors correction, since the distribution parameters are estimated.
+If they are known, the SPSS Statistics Nonparametric Tests procedure can be used to
+calculate the K-S test without the correction.</p>
+<i>Example</i>:- If a company wants to analyze the productivity scores of employees to determine if the scores are normally distributed, then the Lilliefors (Kolmogorov-Smirnov) test can be used for this purpose.</p>
+
+<h2>Univariate Plots</h2>
+<h3>Histogram</h3>
+Histogram is a very simple and important graph of the frequency distribution. The data is presented in the form of adjacent rectangles with height of rectangle proportional to the frequency. A normal curve is drawn over the histogram to examine if the data follows normal pattern.</p>
+<h3>Box Plot</h3>
+<p>
+The box-whisker plot or box plot is another way to assess the normality of the data.. This plot uses the quartiles and extreme values of the data as a summary measure. The plot consists of a rectangle (the box) in the central part of the observed data and whiskers are drawn to the lowest and highest values from the rectangle. The limits of the box are lower and upper quartiles and the middle line is the median. A box plot that is symmetric with the median line at approximately the centre of the box and with symmetric whiskers indicate that the data may have come from a normal distribution. </p>
+<h3>Q-Q Plot</h3>
+The Quantile-Quantile (Q-Q) plot is also used for examining whether the data follows a specific distribution or not. The quantiles of the data are plotted against the expected values of desired distribution. This plot should look like a straight line. A quantile plot is a visual display that provides a lot of information about a univariate distribution and the quantiles of a distribution are a set of summary statistics that locate at relative positions within the complete ordered array of data values. For normally distributed data, observed data are approximate to the expected data, that is, they are statistically equal.</p>
+<h3>Scatter Plot</h3>
+A scatter plot is a graph that is used to observe and visually display the relationship between variables. The values of the variables are represented by dots. The positioning of the dots on the vertical and horizontal axis will inform the value of the respective data point and hence, scatter plots make use of Cartesian coordinates to display the values of the variables in a data set. 
+</p>
+
+
+<h2>Multivariate Normality Tests</h2>
+<p>While mutually independent normally distributed variables always have a normal multivariate
+distribution, it is not the case in general that the joint distribution of normally distributed
+variables is multivariate normal.<p>
+
+<h3>Mardia Test</h3>
+The Mardia test is a statistical test used to assess the multivariate normality of a dataset. This test assesses whether the skewness and kurtosis of the data match the skewness and kurtosis expected in a multivariate normal distribution. We have two test statistic in this test, Mardia test statistic for Skewness and Mardia test statistic for Kurtosis, where the skewness test statistic is approximately Chi square distributed and the Kurtosis test statistic is approximately normally distributed. The p-value is used to determine the significance of the test statistic. The test rejects the null hypothesis of normality if the p-value is less than 0.05 (or 0.01).</p>
+<i>Example</i>:- If a financial analyst is examining the returns of a portfolio comprising stocks, bonds, and real estate assets over the past decade and wants to assess whether the multivariate distribution of the portfolio returns is approximately normal or not, then Mardia test could be used for this purpose. </p>
+<h3>Royston Test</h3>
+<p>The Royston test is the extension of Shapiro-Wilk test to the multivariate case. Royston transforms the m-Shapiro-Wilk statistics into an approximately Chi- squared random variable, with e (1 < e < m) degrees of freedom. The degrees of freedom are estimated by taking into account possible correlation structures between the original m test statistics. This test has been found to behave well when the sample size is small and the variates are relatively uncorrelated. The p-value is used to determine the significance of the test statistic. The test rejects the null hypothesis of normality if the p-value is less than 0.05 (or 0.01).</p>
+<i>Example</i>:- In case of healthcare research, if a medical researcher is studying the relationship between several health indicators, such as blood pressure, cholesterol levels, and body mass index, in a sample of patients, then the researcher can apply the Royston test to check if the joint distribution of health indicators follows a multivariate normal distribution or not. </p>
+<h3>Henze-Zirkler Test </h3>
+<p>The Henze-Zirkler test computes a multivariate normality test statistic based on a non-negative functional distance that measures the distance between two distribution functions: the characteristic function of the multivariate normality and the empirical characteristic function. The Henze-Zirkler statistic is approximately distributed as a lognormal and the lognormal distribution is used to compute the null hypothesis probability. In other words, if the data is multivariate normal, the test statistic HZ is approximately lognormally distributed. It proceeds to calculate the mean, variance and the smoothness parameter. Then, the mean and variance are log normalized and the p-value is estimated. The p-value is used to determine the significance of the test statistic. The test rejects the null hypothesis of normality if the p-value is less than 0.05 (or 0.01).</p>
+<i>Example</i>:- If a manufacturing company is interested in assessing the multivariate distribution of product dimensions to ensure quality control, then the quality control engineers can apply the Henze-Zirkler test to determine if the product dimensions follow a multivariate normal distribution. Deviations from normality may signal issues in the manufacturing process that need attention. </p>
+<h3>Doornik-Hansen Test</h3>
+<p>The Doornik-Hansen test for multivariate normality is based on the skewness and kurtosis of multivariate data that is transformed to ensure independence. The test statistic for this test is defined as the sum of squared transformations of the skewness and kurtosis, which approximately follows a Chi Square distribution. The p-value is used to determine the significance of the test statistic. The test rejects the null hypothesis of normality if the p-value is less than 0.05 (or 0.01).</p>
+<i>Example</i>:- If a health researcher wants to assess the multivariate normality of three key health indicators such as Body Mass Index, Blood Pressure, and Cholesterol Level, then the Doornik-Hansen test can be applied to assess the multivariate normality of these set of health indicators.<p>
+<h3>Energy Test</h3>
+The energy test for multivariate normality provides a robust, non-parametric alternative that is particularly useful when dealing with high-dimensional datasets or when parametric assumptions are not met. The test statistic of the energy test for multivariate normality is based on the energy distance where the energy distance is simply a statistical measure that quantifies the distance between two probability distributions. For the multivariate normality test, the Euclidean distance is used to quantify the distance between observations within and between samples or distributions. Also, for this test, under the null hypothesis, the critical values are determined via simulation.</p> 
+<i>Example</i>:- If an economist is analyzing a dataset consisting of various economic indicators, such as GDP growth rate, inflation rate, unemployment rate, and interest rate, from several countries and he wants to determine if these indicators follow a multivariate normal distribution, which would validate the use of certain multivariate statistical techniques, then the Energy test could be used to assess the multivariate normality of those economic indicators.</p>
+
+
+<h2>Multivariate Plots</h2>
+<h3>Chi Square Q-Q Plot</h3>
+The quantile-quantile (Q-Q plot) plot is a graphical method for determining if a dataset follows a certain probability distribution or whether two samples of data came from the same population or not. A Chi square quantile-quantile plots show the relationship between data-based values which should be distributed as Chi square and corresponding quantiles from the Chi Square distribution. In multivariate analyses, this is often used both to assess multivariate normality and check for outliers, using the Mahalanobis squared distances of observations from the centroid. For multivariate data, we plot the ordered Mahalanobis distances versus estimated quantiles (percentiles) for a sample of size n from a chi-squared distribution with p degrees of freedom. This should resemble a straight line for data from a multivariate normal distribution. Outliers will show up as points on the upper right side of the plot for which the Mahalanobis distance is notably greater than the chi-square quantile value.</p>
+<h3>Perspective Plot & Contour Plot</h3>
+The perspective plot is an extension of the univariate probability distribution curve into a 3-dimensional probability distribution surface related with bivariate distributions. This plot gives information about where data are gathered and how two variables are correlated with each other. It consists of three dimensions where two dimensions refer to the values of the two variables and the third dimension, which like in univariate cases, is the value of the multivariate normal probability density function. Another plot, known as the contour plot, involves the projection of the perspective plot into a 2-dimensional space and this can be used for checking multivariate normality assumption. For bivariate normally distributed data, we obtain a three-dimensional bell-shaped graph from the perspective plot and we can observe a similar pattern in the contour plot also.</p>
+
+
+
+
+<h1>Acknowledgements</h1>
+The MVN package authors, on which this procedure is based, are
+Selcuk Korkmaz,
+Dincer Goksuluk, and
+Gokmen Zararsiz.
+
+  <p style="font-size:80%;">
+  © Copyright Jon K Peck and IBM Corp. 2024</p>
+</body>
+</html>
