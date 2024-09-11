@@ -196,7 +196,7 @@ domvn<-function(idvar=NULL, variables, mvntests=NULL, univariatetests=NULL, boot
     ut = list()
     for (item in univariatetests) {ut[[item]] = univartests[[item]]}   # case correct test keywords
     univariatetests = ut
-    spsspkg.StartProcedure(gtxt("Normality Analylsis"),"STATS NORMALITY ANALYSIS")
+    spsspkg.StartProcedure(gtxt("Normality Analysis"),"STATS NORMALITY ANALYSIS")
     
     # correct variable name case, including the id variable, if any
     variables = casecorrect(c(variables, idvar), warns)  # get data api requires case match

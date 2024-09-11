@@ -1,8 +1,10 @@
 Name: STATS NORMALITY ANALYSIS
+Display-Name: Normality Analysis
 Dialog-Specs: normalityanalysis.cfe
 Command-Specs: STATS_NORMALITY_ANALYSIS.XML
 Code-Files: STATS_NORMALITY_ANALYSIS.R
-Misc-Files: extsyntax.css,stats_normality_analysis.htm,markdown.html
+Misc-Files: extsyntax.css,stats_normality_analysis.htm,LICENSE,markdow
+ n.html
 Summary: Univariate and muiltivariate tests and plots for normality of
   a set of variables
 Description: This procedure calculates several tests for univariate no
@@ -17,4 +19,3 @@ Date: 8/1/2024
 Categories: normality distribution 
 Plugins: R
 R-Packages: moments,MVN,MASS,nortest,psych,boot,energy
-Translation-Catalogues: 
