@@ -10,6 +10,17 @@
 
 # history
 # 7-aug-2024 original version
+# 16-sep-2024 finishing touches including variable case and TO support
+
+
+# helpers
+gtxt <- function(...) {
+    return(gettext(...,domain="STATS_NORMALITY_ANALYSIS"))
+}
+
+gtxtf <- function(...) {
+    return(gettextf(...,domain="STATS_NORMALITY_ANALYSIS"))
+}
 
 loadmsg = "The R %s package is required but could not be loaded."
 tryCatch(suppressWarnings(library(MVN, warn.conflicts=FALSE)), error=function(e){
@@ -36,15 +47,6 @@ tryCatch(suppressWarnings(library(boot)), error=function(e){
     stop(gtxtf(loadmsg,"boot"), call.=FALSE)
 }
 )
-
-# helpers
-gtxt <- function(...) {
-    return(gettext(...,domain="STATS_NORMALITY_ANALYSIS"))
-}
-
-gtxtf <- function(...) {
-    return(gettextf(...,domain="STATS_NORMALITY_ANALYSIS"))
-}
 
 
 mylist2env = function(alist) {
@@ -142,19 +144,18 @@ casecorrect = function(vlist, warns) {
 
     dictnames = spssdictionary.GetDictionaryFromSPSS()["varName",]
     names(dictnames) = tolower(dictnames)
+    dictnames['all'] = "all"
+    dictnames['to'] = "to"
     correctednames = list()
     for (item in vlist) {
         lcitem = tolower(item)
-        if (lcitem %in% dictnames) {
-            itemc = dictnames[[lcitem]]
-            correctednames = append(correctednames, itemc)
-        } else {
-            if (!(lcitem %in% list("to", "all"))) {
-                warns$warn(gtxtf("Invalid variable name: %s", item), dostop=TRUE)
-            }
+        itemc = dictnames[[lcitem]]
+        if (is.null(itemc)) {
+            warns$warn(gtxtf("Invalid variable name!!!: %s", item), dostop=TRUE)
         }
-
+        correctednames = append(correctednames, itemc)
     }
+
     return(correctednames)
 }
 
@@ -204,7 +205,7 @@ domvn<-function(idvar=NULL, variables, mvntests=NULL, univariatetests=NULL, boot
         idvar = variables[[length(variables)]]
         variables = variables[-length(variables)]
     }
-
+    
     splitvars = spssdata.GetSplitVariableNames()
     nsplitvars = length(splitvars)
     if (length(intersect(tolower(variables), tolower(splitvars))) > 0) {
@@ -212,6 +213,10 @@ domvn<-function(idvar=NULL, variables, mvntests=NULL, univariatetests=NULL, boot
     }
 
     # various places in mvn just fail or give wrong results if only one variable
+    # nvars can be an underestimate if TO or ALL is used, but TO would have to involve
+    # at least two variables, and ALL is very unlikely to be used.
+    # TO or ALL in splitvars might mess things up but that would be very unlikely usage.
+    
     nvars = length(variables)
     if (nvars < 2) {
         warns$warn(gtxt("At least two variables must be specified"), dostop=TRUE)
@@ -246,7 +251,6 @@ domvn<-function(idvar=NULL, variables, mvntests=NULL, univariatetests=NULL, boot
     # procedure will only use complete cases.
     # SPSS date variables are not converted via rDate=POSIXct, because MVT code does not hanndle
     # date variables correctly
-    
     while (!spssdata.IsLastSplit()) {
         # if (is.null(idvar)) {
         #     dta = spssdata.GetSplitDataFromSPSS(c(idvar, variables, splitvars), missingValueToNA=TRUE, factorMode="labels")
@@ -254,12 +258,13 @@ domvn<-function(idvar=NULL, variables, mvntests=NULL, univariatetests=NULL, boot
         #     dta = spssdata.GetSplitDataFromSPSS(c(idvar, variables), missingValueToNA=TRUE, factorMode="labels",
         #     row.label=idvar)
         # }
+
         if (is.null(idvar)) {
-            dta = spssdata.GetSplitDataFromSPSS(c(variables, splitvars), missingValueToNA=TRUE, factorMode="labels")
+            dta = spssdata.GetSplitDataFromSPSS(paste(c(variables, splitvars), collapse=" "), missingValueToNA=TRUE, factorMode="labels")
         } else {
             # this will fail if id values are not unique
             tryCatch(
-            {dta = spssdata.GetSplitDataFromSPSS(c(variables, splitvars), missingValueToNA=TRUE, factorMode="labels",
+            {dta = spssdata.GetSplitDataFromSPSS(paste(c(variables, splitvars), collapse=" "), missingValueToNA=TRUE, factorMode="labels",
                 row.label=idvar)
             },
             error = function(e) {
@@ -270,7 +275,6 @@ domvn<-function(idvar=NULL, variables, mvntests=NULL, univariatetests=NULL, boot
             # }
             )
         }
-
         splitnumber = splitnumber + 1
         # save split values
         if (needsplittbl) {

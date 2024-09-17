@@ -19,3 +19,4 @@ Date: 8/1/2024
 Categories: normality distribution 
 Plugins: R
 R-Packages: moments,MVN,MASS,nortest,psych,boot,energy
+Translation-Catalogues: 
