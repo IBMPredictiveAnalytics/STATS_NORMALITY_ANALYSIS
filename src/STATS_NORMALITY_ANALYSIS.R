@@ -11,6 +11,7 @@
 # history
 # 7-aug-2024 original version
 # 16-sep-2024 finishing touches including variable case and TO support
+# 25-sep-2024 adjustments to Mardia output
 
 
 # helpers
@@ -538,12 +539,14 @@ mvtestresults <- function(dta, mvntests, bootstrapreps, scaledata) {
         } else {  # mardia has test and p value as factors
             mt[row, 1] = mvt$multivariateNormality$Test[1]
             mt[row, 2] = round4(as.numeric(levels(mvt$multivariateNormality$Statistic))[[1]])[1]
-            pvs = levels(mvt$multivariateNormality$"p value")
+            respv = mvt$multivariateNormality$"p value"
+            pvs = as.numeric(levels(respv))[respv]
+            # mvn only returns one sig value if skewness and kurtosis sig values are the same
+            # this many happen at the extremes where values are both 0.
             if (length(pvs) == 1) {
-                mt[row, 3] = "--"
-            } else {
-                mt[row, 3] = round4(as.numeric(levels(mvt$multivariateNormality$"p value"))[[1]])
+                pvs[2] = pvs[1]
             }
+            mt[row, 3] = round4(pvs[1])  #skewness sig
             
             if (mt[row, 3] == 0) {
                 mt[row, 3] = "<.001"
@@ -551,12 +554,9 @@ mvtestresults <- function(dta, mvntests, bootstrapreps, scaledata) {
             row = row + 1
             mt[row, 1] = mvt$multivariateNormality$Test[2]
             mt[row, 2] = round4(as.numeric(levels(mvt$multivariateNormality$Statistic[[1]])[[2]]))
-            pvs = levels(mvt$multivariateNormality$"p value")
-
-            if (length(pvs) == 1) {
-                mt[row, 3] = "--"
-            } else {
-                mt[row, 3] = round4(as.numeric(levels(mvt$multivariateNormality$"p value"[[2]])))[2]
+            mt[row, 3] = round4(pvs[[2]])  # kurtosis sig
+            if (mt[row, 3] == 0) {
+                mt[row, 3] = "<.001"
             }
             row = row + 1
         }
