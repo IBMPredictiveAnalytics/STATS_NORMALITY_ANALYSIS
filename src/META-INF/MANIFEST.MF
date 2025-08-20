@@ -1,21 +1,24 @@
 Name: STATS NORMALITY ANALYSIS
 Display-Name: Normality Analysis
 Dialog-Specs: normalityanalysis.cfe
-Command-Specs: STATS_NORMALITY_ANALYSIS.XML
-Code-Files: STATS_NORMALITY_ANALYSIS.R
+Command-Specs: STATS_NORMALITY_ANALYSIS.XML,stats_insert_chart.xml
+Code-Files: STATS_INSERT_CHART.py,STATS_NORMALITY_ANALYSIS.R
 Misc-Files: extsyntax.css,stats_normality_analysis.htm,LICENSE,markdow
  n.html
 Summary: Univariate and muiltivariate tests and plots for normality of
-  a set of variables
+  a set of variables. NOTE : Windows-only
 Description: This procedure calculates several tests for univariate no
  rmality of a set of variables and multivariate normality of the joint
   distribution.  It also calculates univariate and multivariate plots 
  helpful in assessing normality and outliers from a multivariate norma
- l distribution.  It can be used for one or more variables.
+ l distribution.  It can be used for one or more variables.[Windows-on
+ ly]
 Author: Jon K Peck
-Version: 1.0.0
-Product-Version: 30
+Version: 2.0.0
+Product-Version: 28
 Date: 8/1/2024
+Platforms: Windows-only
 Categories: normality distribution 
 Plugins: R
-R-Packages: moments,MVN,MASS,nortest,psych,boot,energy
+R-Packages: MVN
+Translation-Catalogues: 

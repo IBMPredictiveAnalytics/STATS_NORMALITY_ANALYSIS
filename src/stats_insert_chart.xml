@@ -1,0 +1,12 @@
+<!-- edited with XMLSPY v2004 rel. 3 U (http://www.xmlspy.com) by Jon Peck (SPSS Inc.) -->
+<Command xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="extension-1.0.xsd" Name="STATS INSERT CHART" Language="Python" LanguageVersion="3">
+	<Subcommand Name="" IsArbitrary="False" Occurrence="Optional">
+		<Parameter Name="CHARTLIST" ParameterType="QuotedString"/>
+		<Parameter Name="HEADER" ParameterType="QuotedString"/>
+		<Parameter Name="LABELPARM" ParameterType="IntegerList"/>
+		<Parameter Name="OUTLINELABEL" ParameterType="QuotedString"/>
+		<Parameter Name="LOCATION" ParameterType="Keyword"/>
+		<Parameter Name="HIDELOG" ParameterType="Keyword"/>
+	</Subcommand>
+	<Subcommand Name="HELP" Occurrence="Optional"/>
+</Command>

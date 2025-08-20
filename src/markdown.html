@@ -24,8 +24,10 @@ UNIVARIATETESTS = AD SW CVM LILLIE SF<br/>
 MVNTESTS = MARDIA HZ ROYSTON DH ENERGY</br>
 BOOTSTRAPREPS = integer</br>
 SCALEDATA = NO<sup>&#42;&#42;</sup> or YES<br/>
-UNIPLOTS = QQ HISTOGRAM BOX SCATTER<BR/>
-MULTIVARPLOTS = QQ PERSP CONTOUR <BR/>
+UNIPLOTS = YES<sup>&#42;&#42;</sup> or NO<BR/>
+SCATTERPLOTS = NO<sup>&#42;&#42;</sup> or YES <BR/>
+NSCATTERPLOTVARS number of variables for scattersA</br>
+SCATTERPLOTSIZE number of pixels in each dimension for each scatterplot</p>
 DESCRIPTIVES = NO<sup>&#42;&#42;</sup> or YES<BR/>
 </p>
 <p>
@@ -47,11 +49,7 @@ OUTLIERDETECTION = QUAN<sup>&#42;&#42;</sup> or ADJ
 STATS NORMALITY ANALYSIS VARIABLES = X1 TO X10
 / OUTPUT UNIVARIATE=AD SW.
 </code></pre>
-<pre class="example"><code>
-STATS PREPROCESS VARIABLES = X1 X2
-/OUTPUT 
-/OUTLIERS IDVAR=id NOUTLIERS=10 OUTLIERDETECTION=ADJ. 
-</code></pre>
+
 
 <H2>Subcommands and Keywords</H2>
 <p>This procedure supports SPLIT FILES.  If scaling, each split is scaled separately. The procedure does not support case weights.  If weighting is on,
@@ -84,20 +82,13 @@ The available tests are as follows.
 <p><strong>BOOTSTRAPREPS</strong> specifies the number of replications for the bootstrap for the Energy E test.
 Setting it to zero suppresses bootstrapping but means that no significance level will appear.</p>
 <strong>UNIVARPLOTS</strong> specifies zero or more univariate plots.  
-All the variables will appear in a single panel.  The available plots are
-<ul>
-<li>HISTOGRAM: histogram.  All the variables will appear in a single panel.</li>
-<li>BOX: box plot</li>
-<li>QQ:: Q-Q plot</li>
-<li>SCATTER: scatterplot</li>
-</ul>
+All the variables will appear in a single panel.  The plots are a box plot for all the variables
+and pairs of a histogram and Q-Q plot for each variable.  If split files is on, a separate set of
+plots for each split is produced.
+
 <p>
-<strong>MULTIVARPLOTS</strong> specifies zero or more plots of the joint distribution.  The plots are
-<ul>
-<li>QQ Q-Q plot</li>
-<li>CONTOUR contour plot.  Only the first two variables will be plotted</li>
-<li>PERSP perspective plot.  Only the first two variables will be plotted.</li>
-</ul>
+<strong>SCATTERPLOTS</strong> 
+produces a SPLOM of scatterplots for all the variables
 <p><strong>OUTLIERS</strong></p>
 A table and chart of multivariate outliers is specified in the <strong>OUTLIERS</strong> subcommand.
 <P><strong>IDVAR</strong> specifies an ID variable that will be used to label the outliers and plot
@@ -171,13 +162,15 @@ The Mardia test is a statistical test used to assess the multivariate normality 
 <h3>Energy Test</h3>
 The energy test for multivariate normality provides a robust, non-parametric alternative that is particularly useful when dealing with high-dimensional datasets or when parametric assumptions are not met. The test statistic of the energy test for multivariate normality is based on the energy distance where the energy distance is simply a statistical measure that quantifies the distance between two probability distributions. For the multivariate normality test, the Euclidean distance is used to quantify the distance between observations within and between samples or distributions. Also, for this test, under the null hypothesis, the critical values are determined via simulation.</p> 
 <i>Example</i>:- If an economist is analyzing a dataset consisting of various economic indicators, such as GDP growth rate, inflation rate, unemployment rate, and interest rate, from several countries and he wants to determine if these indicators follow a multivariate normal distribution, which would validate the use of certain multivariate statistical techniques, then the Energy test could be used to assess the multivariate normality of those economic indicators.</p>
+<h3>Multivariate Plots</h3>
+<p><strong>SCATTERPLOTS</strong> specifies whether or not to produce a SPLOM (scatterplot matrix) of the variables</p>
+<p><strong>NSCATTERPLOTVARS</strong> can specify a limit, k, on the number of variables in the SPLOM.  The first k variables will be plotted.</p>
+<p><strong>SCATTERPLOTSIZE</strong> specifies the size of each scatterplot in the SPLOM in pixels.  The default is 200.</p>
+</h2>Outliers</h2>
+<strong>IDVAR</strong> specifies an ID variable for use in the table of outliers.</P>
+<strong>NOUTLIERS</strong> specifies the maximum number of outliers to be listed in the outliers table.  If zero, the table is not displayed.</p>
+<p><strong>OUTLIERDETECTION</strong> specifies the method used to define the outlier distance.</p>
 
-
-<h2>Multivariate Plots</h2>
-<h3>Chi Square Q-Q Plot</h3>
-The quantile-quantile (Q-Q plot) plot is a graphical method for determining if a dataset follows a certain probability distribution or whether two samples of data came from the same population or not. A Chi square quantile-quantile plots show the relationship between data-based values which should be distributed as Chi square and corresponding quantiles from the Chi Square distribution. In multivariate analyses, this is often used both to assess multivariate normality and check for outliers, using the Mahalanobis squared distances of observations from the centroid. For multivariate data, we plot the ordered Mahalanobis distances versus estimated quantiles (percentiles) for a sample of size n from a chi-squared distribution with p degrees of freedom. This should resemble a straight line for data from a multivariate normal distribution. Outliers will show up as points on the upper right side of the plot for which the Mahalanobis distance is notably greater than the chi-square quantile value.</p>
-<h3>Perspective Plot & Contour Plot</h3>
-The perspective plot is an extension of the univariate probability distribution curve into a 3-dimensional probability distribution surface related with bivariate distributions. This plot gives information about where data are gathered and how two variables are correlated with each other. It consists of three dimensions where two dimensions refer to the values of the two variables and the third dimension, which like in univariate cases, is the value of the multivariate normal probability density function. Another plot, known as the contour plot, involves the projection of the perspective plot into a 2-dimensional space and this can be used for checking multivariate normality assumption. For bivariate normally distributed data, we obtain a three-dimensional bell-shaped graph from the perspective plot and we can observe a similar pattern in the contour plot also.</p>
 
 <h1>Acknowledgements</h1>
 The calculations and plots are carried out by the R MVN package. The package authors are

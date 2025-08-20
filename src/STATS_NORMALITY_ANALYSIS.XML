@@ -15,22 +15,21 @@
 	<Subcommand Name="" IsArbitrary="False" Occurrence="Optional">
 		<Parameter Name="VARIABLES" ParameterType="VariableNameList"/>
 	</Subcommand>
-	
 	<Subcommand Name="OUTPUT">
 		<Parameter Name="MVNTESTS" ParameterType="KeywordList"/>
 		<Parameter Name="UNIVARIATETESTS" ParameterType="KeywordList"/>
 		<Parameter Name="BOOTSTRAPREPS" ParameterType="Integer"/>
 		<Parameter Name="SCALEDATA" ParameterType="Keyword"/>
-	    <Parameter Name="UNIPLOTS" ParameterType="KeywordList"/>
-		<Parameter Name="MULTIVARPLOTS" ParameterType="KeywordList"/>
+		<Parameter Name="UNIPLOTS" ParameterType="KeywordList"/>
+		<Parameter Name="SCATTERPLOTS" ParameterType="KeywordList"/>
+		<Parameter Name="NSCATTERPLOTVARS" ParameterType="Integer"/>
+		<Parameter Name="SCATTERPLOTSIZE" ParameterType="Integer"/>
 		<Parameter Name="DESCRIPTIVES" ParameterType="Keyword"/>
 	</Subcommand>
-	
 	<Subcommand Name="OUTLIERS">
 		<Parameter Name="IDVAR" ParameterType="VariableName"/>
 		<Parameter Name="NOUTLIERS" ParameterType="Integer"/>
 		<Parameter Name="OUTLIERDETECTION" ParameterType="Keyword"/>
 	</Subcommand>
-	
 	<Subcommand Name="HELP" Occurrence="Optional"/>
 </Command>

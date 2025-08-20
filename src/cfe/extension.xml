@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<!--***********************************************************************--><!----><!--Licensed Materials - Property of IBM--><!----><!--IBM SPSS Products: Modeler Common--><!----><!--(C) Copyright IBM Corp. 1989, 2024--><!----><!--US Government Users Restricted Rights - Use, duplication or disclosure--><!--restricted by GSA ADP Schedule Contract with IBM Corp.--><!----><!--***********************************************************************--><Extension xmlns="http://xml.spss.com/pasw/extension" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" debug="false" version="8.0" xsi:schemaLocation="http://xml.spss.com/pasw/extension http://xml.spss.com/pasw/extension/ExtensionSpecification.xsd">
+<!--***********************************************************************--><!----><!--Licensed Materials - Property of IBM--><!----><!--IBM SPSS Products: Modeler Common--><!----><!--(C) Copyright IBM Corp. 1989, 2025--><!----><!--US Government Users Restricted Rights - Use, duplication or disclosure--><!--restricted by GSA ADP Schedule Contract with IBM Corp.--><!----><!--***********************************************************************--><Extension xmlns="http://xml.spss.com/pasw/extension" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" debug="false" version="8.0" xsi:schemaLocation="http://xml.spss.com/pasw/extension http://xml.spss.com/pasw/extension/ExtensionSpecification.xsd">
   <ExtensionDetails description="Created by CDB" id="normalityanalysis" label="Normality Analysis" provider="IBM SPSS, Inc." providerTag="spss" version="8.0"/>
   <Resources>
-    <Bundle id="bundle449" path="normalityanalysis" type="properties"/>
+    <Bundle id="bundle893" path="normalityanalysis" type="properties"/>
     <JarFile id="jar" path="cdb_peer.jar"/>
     <HelpInfo id="HTMLHelp" type="HTMLHelp"/>
   </Resources>
@@ -40,7 +40,7 @@
       <ImportProperties context="rbuilder"/>
       <Property defaultValue="" name="modelName" valueType="string"/>
       <Property defaultValue="false" name="modelRename" valueType="boolean"/>
-      <Property defaultValue="STATS NORMALITY ANALYSIS&#13;&#10; %%distvariables%%&#13;&#10; %%scaledata%% %%desc%% %%unitests%% %%mvntests%%&#13;&#10; %%uniplots%%&#13;&#10; %%multivarplots%% %%bootstrapreps%%&#13;&#10; %%showoutliers%% %%idvar%% %%outlierdetection%% %%noutliers%%." name="script" valueType="string"/>
+      <Property defaultValue="STATS NORMALITY ANALYSIS&#13;&#10; %%distvariables%%&#13;&#10; %%scaledata%% %%desc%% %%unitests%% %%mvntests%%&#13;&#10; %%uniplots%%&#13;&#10; %%scatterplots%% %%bootstrapreps%%&#13;&#10; %%showoutliers%% %%idvar%% %%outlierdetection%% %%noutliers%%." name="script" valueType="string"/>
       <Property defaultValue="false" name="canScore" valueType="boolean"/>
       <Property defaultValue="" name="scoringScript" valueType="string"/>
       <Property name="addOns" valueType="string"/>
@@ -65,20 +65,12 @@
       <Property defaultValue="false" name="lille" valueType="boolean"/>
       <Property defaultValue="LILLIE±" name="lille_syntax" valueType="string"/>
       <Property defaultValue="item_12;sw;cvm;sf;lille" name="unitests_children" valueType="string"/>
-      <Property defaultValue="UNIPLOTS=%%ThisValue%%" name="uniplots_syntax" valueType="string"/>
-      <Property defaultValue="true" name="histogram" valueType="boolean"/>
-      <Property defaultValue="HISTOGRAM±" name="histogram_syntax" valueType="string"/>
-      <Property defaultValue="false" name="box" valueType="boolean"/>
-      <Property defaultValue="BOX±" name="box_syntax" valueType="string"/>
-      <Property defaultValue="false" name="qq" valueType="boolean"/>
-      <Property defaultValue="QQ±" name="qq_syntax" valueType="string"/>
-      <Property defaultValue="false" name="scallter" valueType="boolean"/>
-      <Property defaultValue="SCATTER±" name="scallter_syntax" valueType="string"/>
-      <Property defaultValue="histogram;box;qq;scallter" name="uniplots_children" valueType="string"/>
       <Property defaultValue="false" name="scaledata" valueType="boolean"/>
       <Property defaultValue="/OUTPUT SCALEDATA=YES±/OUTPUT SCALEDATA=NO" name="scaledata_syntax" valueType="string"/>
       <Property defaultValue="false" name="desc" valueType="boolean"/>
       <Property defaultValue="DESCRIPTIVES=YES±" name="desc_syntax" valueType="string"/>
+      <Property defaultValue="true" name="uniplots" valueType="boolean"/>
+      <Property defaultValue="UNIPLOTS=YES±UNIPLOTS=NO" name="uniplots_syntax" valueType="string"/>
       <Property defaultValue="MVNTESTS=%%ThisValue%%" name="mvntests_syntax" valueType="string"/>
       <Property defaultValue="true" name="item_22" valueType="boolean"/>
       <Property defaultValue="HZ±" name="item_22_syntax" valueType="string"/>
@@ -93,14 +85,14 @@
       <Property defaultValue="item_22;item_23;item_24;item_21;energye" name="mvntests_children" valueType="string"/>
       <Property defaultValue="1000" min="0" name="bootstrapreps" valueType="integer"/>
       <Property defaultValue="BOOTSTRAPREPS=%%ThisValue%%" name="bootstrapreps_syntax" valueType="string"/>
-      <Property defaultValue="MULTIVARPLOTS=%%ThisValue%%" name="multivarplots_syntax" valueType="string"/>
-      <Property defaultValue="false" name="item_30" valueType="boolean"/>
-      <Property defaultValue="QQ±" name="item_30_syntax" valueType="string"/>
-      <Property defaultValue="false" name="item_29" valueType="boolean"/>
-      <Property defaultValue="PERSP±" name="item_29_syntax" valueType="string"/>
-      <Property defaultValue="false" name="item_28" valueType="boolean"/>
-      <Property defaultValue="CONTOUR±" name="item_28_syntax" valueType="string"/>
-      <Property defaultValue="item_30;item_29;item_28" name="multivarplots_children" valueType="string"/>
+      <Property defaultValue="%%ThisValue%%" name="scatterplots_syntax" valueType="string"/>
+      <Property defaultValue="true" name="multivarplots" valueType="boolean"/>
+      <Property defaultValue="SCATTERPLOTS=YES±SCATTERPLOTS=NO" name="multivarplots_syntax" valueType="string"/>
+      <Property defaultValue="" max="1000" min="0" name="item_49" valueType="integer"/>
+      <Property defaultValue="NSCATTERPLOTVARS=%%ThisValue%%" name="item_49_syntax" valueType="string"/>
+      <Property defaultValue="100" max="1000" min="50" name="plotsize" valueType="integer"/>
+      <Property defaultValue="SCATTERPLOTSIZE=%%ThisValue%%" name="plotsize_syntax" valueType="string"/>
+      <Property defaultValue="multivarplots;item_49;plotsize" name="scatterplots_children" valueType="string"/>
       <Property defaultValue="%%ThisValue%%" name="out_syntax" valueType="string"/>
       <Property isList="true" name="idvar" valueType="fieldName"/>
       <Property defaultValue="IDVAR=%%ThisValue%%" name="idvar_syntax" valueType="string"/>
@@ -110,7 +102,7 @@
       <Property defaultValue="QUAN" name="item_39_a_syntax" valueType="string"/>
       <Property defaultValue="false" name="item_39_b_hasSubGroup"/>
       <Property defaultValue="ADJ" name="item_39_b_syntax" valueType="string"/>
-      <Property defaultValue="50" name="noutliers" valueType="integer"/>
+      <Property defaultValue="50" min="0" name="noutliers" valueType="integer"/>
       <Property defaultValue="NOUTLIERS=%%ThisValue%%" name="noutliers_syntax" valueType="string"/>
       <Property defaultValue="false" name="showoutliers" valueType="boolean"/>
       <Property defaultValue="/OUTLIERS ±" name="showoutliers_syntax" valueType="string"/>
@@ -157,26 +149,14 @@
                   <Layout anchor="northwest" columnWeight="1.0" fill="none" gridColumn="0" gridRow="12" gridWidth="1" rowWeight="0.0"/>
                 </CheckBoxControl>
               </PropertiesPanel>
-              <PropertiesPanel borderTitleKey="uniplots" borderType="etched" id="uniplots">
-                <Layout anchor="northwest" columnWeight="1.0" fill="horizontal" gridColumn="0" gridRow="1" gridWidth="1" rowWeight="1.0"/>
-                <CheckBoxControl labelAbove="false" property="histogram" resourceKey="histogram">
-                  <Layout anchor="northwest" columnWeight="1.0" fill="none" gridColumn="0" gridRow="0" gridWidth="1" rowWeight="0.0"/>
-                </CheckBoxControl>
-                <CheckBoxControl labelAbove="false" property="box" resourceKey="box">
-                  <Layout anchor="northwest" columnWeight="1.0" fill="none" gridColumn="0" gridRow="3" gridWidth="1" rowWeight="0.0"/>
-                </CheckBoxControl>
-                <CheckBoxControl labelAbove="false" property="qq" resourceKey="qq">
-                  <Layout anchor="northwest" columnWeight="1.0" fill="none" gridColumn="0" gridRow="6" gridWidth="1" rowWeight="0.0"/>
-                </CheckBoxControl>
-                <CheckBoxControl labelAbove="false" property="scallter" resourceKey="scallter">
-                  <Layout anchor="northwest" columnWeight="1.0" fill="none" gridColumn="0" gridRow="9" gridWidth="1" rowWeight="0.0"/>
-                </CheckBoxControl>
-              </PropertiesPanel>
               <CheckBoxControl labelAbove="false" property="scaledata" resourceKey="scaledata">
                 <Layout anchor="northwest" columnWeight="1.0" fill="none" gridColumn="0" gridRow="3" gridWidth="1" rowWeight="1.0"/>
               </CheckBoxControl>
               <CheckBoxControl labelAbove="false" property="desc" resourceKey="desc">
                 <Layout anchor="northwest" columnWeight="1.0" fill="none" gridColumn="0" gridRow="2" gridWidth="1" rowWeight="0.0"/>
+              </CheckBoxControl>
+              <CheckBoxControl labelAbove="false" property="uniplots" resourceKey="uniplots">
+                <Layout anchor="northwest" columnWeight="1.0" fill="none" gridColumn="0" gridRow="1" gridWidth="1" rowWeight="0.0"/>
               </CheckBoxControl>
             </PropertiesPanel>
             <PropertiesPanel id="middlePanel">
@@ -205,17 +185,23 @@
                   <ControlCondition control="energye" op="equals" value="true"/>
                 </Enabled>
               </TextBoxControl>
-              <PropertiesPanel borderTitleKey="multivarplots" borderType="etched" id="multivarplots">
+              <PropertiesPanel borderTitleKey="scatterplots" borderType="etched" id="scatterplots">
                 <Layout anchor="northwest" columnWeight="1.0" fill="horizontal" gridColumn="1" gridRow="3" gridWidth="1" rowWeight="1.0"/>
-                <CheckBoxControl labelAbove="false" property="item_30" resourceKey="item_30">
+                <CheckBoxControl labelAbove="false" property="multivarplots" resourceKey="multivarplots">
                   <Layout anchor="northwest" columnWeight="1.0" fill="none" gridColumn="0" gridRow="0" gridWidth="1" rowWeight="0.0"/>
                 </CheckBoxControl>
-                <CheckBoxControl labelAbove="false" property="item_29" resourceKey="item_29">
+                <TextBoxControl columns="10" labelAbove="true" property="item_49" resourceKey="item_49">
                   <Layout anchor="northwest" columnWeight="1.0" fill="none" gridColumn="0" gridRow="3" gridWidth="1" rowWeight="0.0"/>
-                </CheckBoxControl>
-                <CheckBoxControl labelAbove="false" property="item_28" resourceKey="item_28">
+                  <Enabled>
+                    <ControlCondition control="multivarplots" op="equals" value="true"/>
+                  </Enabled>
+                </TextBoxControl>
+                <TextBoxControl columns="10" labelAbove="true" property="plotsize" resourceKey="plotsize">
                   <Layout anchor="northwest" columnWeight="1.0" fill="none" gridColumn="0" gridRow="6" gridWidth="1" rowWeight="0.0"/>
-                </CheckBoxControl>
+                  <Enabled>
+                    <ControlCondition control="multivarplots" op="equals" value="true"/>
+                  </Enabled>
+                </TextBoxControl>
               </PropertiesPanel>
             </PropertiesPanel>
           </PropertiesPanel>
@@ -251,7 +237,7 @@
                 </RadioButtonGroupControl>
               </PropertiesPanel>
               <TextBoxControl columns="10" labelAbove="true" property="noutliers" resourceKey="noutliers">
-                <Layout anchor="northwest" columnWeight="1.0" fill="none" gridColumn="2" gridHeight="1" gridRow="4" gridWidth="1" rowWeight="1.0"/>
+                <Layout anchor="northwest" columnWeight="1.0" fill="none" gridColumn="2" gridHeight="1" gridRow="4" gridWidth="1" rowWeight="0.0"/>
                 <Enabled>
                   <ControlCondition control="showoutliers" op="equals" value="true"/>
                 </Enabled>
@@ -259,8 +245,11 @@
               <StaticText textKey="item_80.LABEL">
                 <Layout anchor="northwest" columnWeight="1.0" fill="horizontal" gridColumn="2" gridHeight="1" gridRow="0" gridWidth="1" rowWeight="0.0"/>
               </StaticText>
+              <StaticText textKey="item_115.LABEL">
+                <Layout anchor="northwest" columnWeight="1.0" fill="horizontal" gridColumn="2" gridHeight="1" gridRow="6" gridWidth="1" rowWeight="1.0"/>
+              </StaticText>
               <PropertiesPanel>
-                <Layout columnWeight="1" fill="both" gridColumn="0" gridHeight="7" gridRow="0" gridWidth="1" leftIndent="4" rowWeight="1"/>
+                <Layout columnWeight="1" fill="both" gridColumn="0" gridHeight="8" gridRow="0" gridWidth="1" leftIndent="4" rowWeight="1"/>
                 <SourceFieldsBrowser copyFields="false" measures="[nominal ordinal continuous]" resourceKey="item_33" showLabel="true" storage="[real integer date time string]">
                   <Layout anchor="northwest" columnWeight="0" fill="both" gridColumn="0" gridHeight="1" gridRow="2" gridWidth="1" rowWeight="1"/>
                 </SourceFieldsBrowser>

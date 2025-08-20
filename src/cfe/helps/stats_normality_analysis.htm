@@ -34,13 +34,12 @@
 
 <body>
   <h1>Normality Analysis</h1>
-  <p>Use this dialog to assess the univariate and multivariate normality of a set of variables.  It provides a number of test statistics, plots, and an outlier analysis.  Choose the variables whose distribution
-  will be analyzed on the first tab. At least two variables must be specified.
-  Choose the desired tests, plots, and summary statistics on the <i>Tests and Plots</i> tab, and choose the desired outlier analysis on the <i>Outliers</i> tab.  Only variables with a scale measurement level can be analyzed,
-  While there is no limit on the number of variables that can be analyzed, some plots only support two variables, and some may be hard to read with a large number of variables.</p>
+  <p>Use this dialog to assess the univariate and multivariate normality of a set of variables via formal tests and various plots.  It provides a number of test statistics, plots, and an outlier analysis.  Choose the variables whose distribution
+  will be analyzed on the first tab. At least two variables must be specified.  Only variables with a scale measurement level can be analyzed,
+  Choose the desired tests, plots, and summary statistics on the <i>Tests and Plots</i> tab, and choose the desired outlier analysis on the <i>Outliers</i> tab.  
+  While there is no limit on the number of variables that can be analyzed, some plots may be hard to read with a large number of variables.</p>
   
-  
-  <p>It may be helpful to use split files (<i>Data &gt;Split File</i>) in assessing normality for subgroups such as occur with ANOVA as a separate analyses is produced for each split.  If scaling, each split is scaled separately.  Split file variables cannot be included in the analysis list.</p>
+  <p>It may be useful to use split files (<i>Data &gt;Split File</i>) in assessing normality for subgroups such as occur with ANOVA as a separate analyses is produced for each split.  If scaling, each split is scaled separately.  Split file variables cannot be included in the analysis list.</p>
   <p>This procedure does not support case weights.  If there is a weight set, it will be ignored with a warning.  Only complete cases are analyzed, i.e., missing values are deleted listwise.  SPSS date variables are treated as plain numbers (the number of seconds since October 14, 1582).</p>
   
   <p>If the analysis leads to a need to transform variables in order to make their distribution more normal, the <i>Preprocess variables</i> extension command provides several transformation methods that may be used.  If not already installed, this command can be installed via <i>Extensions &gt; Extension Hub</i>.  It will appear on the <i>Transform</i> menu.</p>
@@ -48,9 +47,7 @@
   <h2>Tests and Plots</h2>
   <p>Check the boxes for the desired univariate and multivariate tests.  See below for information about these tests.  The <i>Royston</i> and <i>Shapiro-Wilk</i> tests cannot be used with more than 5000 cases or fewer than 3.</p>
   
-  <p>Check the boxes for the desired plots.  The <i>Perspective</i> and <i>Contour</i>
-  plots cannot be used for more than two variables.  If selected, those plots will
-  only be produced for the first two variables.</p>
+  <p>Check the boxes for the desired plots.  The univariate plots are a boxplot of all the variables and a paired histogram and qqplot for each variable.  The multivariate plots are two variable scatterplots for each pair of variables.</p>
   
   <p>Check the <i>Descriptive Statistics</i> box to produce a table of statistics
   useful for normality analysis.</p>
@@ -58,22 +55,22 @@
   <p>Check the <i>Scale all variables</i> box to scale all the variables</p>
   
 <h2>Outliers</h2>
-<p>Check the <i>Show multivariate outliers</i> box to produce a table of outliers and a corresponding Q-Q plot.  An ID variable must be specified for this output in order to identify the outlier points.
+<p>Check the <i>Show multivariate outliers</i> box to produce a table of outliers showing their Mahalanobis distance.  An ID variable must be specified for this output in order to identify the outlier points.
 The id values must be unique across cases.  The id variable must not be included in the distribution list.<p>
 
 <p>Choose either <i>Quantile Mahalanobis Distance</i> or <i>Adjusted Mahalanobis distance</i> for the outlier detection method.  Select the number of outliers to display.  The table lists these in descending order of distance.</p>
 
 <h1>Information on the Tests and Plots</h1>
-<p>A number of statistical tests, such as the Student's t-test and ANOVA assume
+<p>Many statistical tests, such as the Student's t-test and ANOVA assume
 normality.  If this assumption is violated, the results may not be valid.  However,
 in large samples, the Central Limit Theorem under general conditions 
 states that the distribution of sample means approximately follows a normal
-distribution, so the normality assumption is less important. </p>
+distribution, so the normality assumption is less important in large samples. </p>
 
 <h2>Univariate Tests</h2>
 <h3>Anderson-Darling Test</h3>
 <p>
-The Anderson Darling test is a statistical test that can be used to assess whether a data set follows a normal distribution or not. The test is based on the idea that if a data set is normally distributed, then the maximum difference between the cumulative distribution function of the data and the normal distribution should be minimized. So, the test statistic in this test is calculated based on the differences between the observed cumulative distribution function and the expected cumulative distribution function under the null hypothesis. The Anderson-Darling test is more sensitive to deviations from normality, especially in the tails of the distribution, making it better suited for detecting non-normal distributions. The p-value is used to determine the significance of the test statistic. A small p-value (typically less than 0.05 or 0.01) indicates that the null hypothesis can be rejected, suggesting that the sample does not follow the normal distribution.
+The Anderson-Darling test is a statistical test that can be used to assess whether a data set follows a normal distribution or not. The test is based on the idea that if a data set is normally distributed, then the maximum difference between the cumulative distribution function of the data and the normal distribution should be minimized. So, the test statistic in this test is calculated based on the differences between the observed cumulative distribution function and the expected cumulative distribution function under the null hypothesis. The Anderson-Darling test is more sensitive to deviations from normality, especially in the tails of the distribution, making it better suited for detecting non-normal distributions. The p-value is used to determine the significance of the test statistic. A small p-value (typically less than 0.05 or 0.01) indicates that the null hypothesis can be rejected, suggesting that the sample does not follow the normal distribution.
 </p>
 <p><i>Example</i>:- The Anderson-Darling normality test finds extensive applications in quality control and process monitoring. In manufacturing and production environments, it is crucial to ensure that the processes are operating within specified limits and producing outputs that conform to quality standards. The Anderson-Darling test can be used to verify the normality assumption of the process data, which is a common requirement for many statistical process control techniques, such as control charts and so on. By checking the normality of process data, manufacturers can detect deviations from the expected distribution, which may indicate the presence of assignable causes or special causes of variation. This information can then be used to take corrective actions and bring the process back into a state of statistical control, ultimately improving product quality and reducing waste.</p>
 
@@ -97,16 +94,15 @@ calculate the K-S test without the correction.</p>
 <i>Example</i>:- If a company wants to analyze the productivity scores of employees to determine if the scores are normally distributed, then the Lilliefors (Kolmogorov-Smirnov) test can be used for this purpose.</p>
 
 <h2>Univariate Plots</h2>
+
 <h3>Histogram</h3>
 Histogram is a very simple and important graph of the frequency distribution. The data is presented in the form of adjacent rectangles with height of rectangle proportional to the frequency. A normal curve is drawn over the histogram to examine if the data follows normal pattern.</p>
 <h3>Box Plot</h3>
 <p>
 The box-whisker plot or box plot is another way to assess the normality of the data.. This plot uses the quartiles and extreme values of the data as a summary measure. The plot consists of a rectangle (the box) in the central part of the observed data and whiskers are drawn to the lowest and highest values from the rectangle. The limits of the box are lower and upper quartiles and the middle line is the median. A box plot that is symmetric with the median line at approximately the centre of the box and with symmetric whiskers indicate that the data may have come from a normal distribution. </p>
 <h3>Q-Q Plot</h3>
-The Quantile-Quantile (Q-Q) plot is also used for examining whether the data follows a specific distribution or not. The quantiles of the data are plotted against the expected values of desired distribution. This plot should look like a straight line. A quantile plot is a visual display that provides a lot of information about a univariate distribution and the quantiles of a distribution are a set of summary statistics that locate at relative positions within the complete ordered array of data values. For normally distributed data, observed data are approximate to the expected data, that is, they are statistically equal.</p>
-<h3>Scatter Plot</h3>
-A scatter plot is a graph that is used to observe and visually display the relationship between variables. The values of the variables are represented by dots. The positioning of the dots on the vertical and horizontal axis will inform the value of the respective data point and hence, scatter plots make use of Cartesian coordinates to display the values of the variables in a data set. 
-</p>
+The Quantile-Quantile (Q-Q) plot is also used for examining whether the data follows a specific distribution or not. The quantiles of the data are plotted against the expected values of desired distribution. This plot should look like a straight line. A quantile plot is a visual display that provides a lot of information about a univariate distribution and the quantiles of a distribution are a set of summary statistics that locate at relative positions within the complete ordered array of data values. For normally distributed data, observed data are approximate to the expected data, that is, they are statistically equal.</p>  Each histogram is paired with a Q-Q plot for the same variable.
+
 
 
 <h2>Multivariate Normality Tests</h2>
@@ -132,13 +128,12 @@ The energy test for multivariate normality provides a robust, non-parametric alt
 
 
 <h2>Multivariate Plots</h2>
-<h3>Chi Square Q-Q Plot</h3>
-The quantile-quantile (Q-Q plot) plot is a graphical method for determining if a dataset follows a certain probability distribution or whether two samples of data came from the same population or not. A Chi square quantile-quantile plots show the relationship between data-based values which should be distributed as Chi square and corresponding quantiles from the Chi Square distribution. In multivariate analyses, this is often used both to assess multivariate normality and check for outliers, using the Mahalanobis squared distances of observations from the centroid. For multivariate data, we plot the ordered Mahalanobis distances versus estimated quantiles (percentiles) for a sample of size n from a chi-squared distribution with p degrees of freedom. This should resemble a straight line for data from a multivariate normal distribution. Outliers will show up as points on the upper right side of the plot for which the Mahalanobis distance is notably greater than the chi-square quantile value.</p>
-<h3>Perspective Plot & Contour Plot</h3>
-The perspective plot is an extension of the univariate probability distribution curve into a 3-dimensional probability distribution surface related with bivariate distributions. This plot gives information about where data are gathered and how two variables are correlated with each other. It consists of three dimensions where two dimensions refer to the values of the two variables and the third dimension, which like in univariate cases, is the value of the multivariate normal probability density function. Another plot, known as the contour plot, involves the projection of the perspective plot into a 2-dimensional space and this can be used for checking multivariate normality assumption. For bivariate normally distributed data, we obtain a three-dimensional bell-shaped graph from the perspective plot and we can observe a similar pattern in the contour plot also.</p>
-
-
-
+<h3>Scatter Plot</h3>
+A scatter plot is a graph that is used to observe and visually display the relationship between variables. The values of the variables are represented by dots. The positioning of the dots on the vertical and horizontal axis will inform the value of the respective data point and hence, scatter plots make use of Cartesian coordinates to display the values of the variables in a data set. 
+</p>
+<p>Since each variable is plotted against all the other variables, there may be a lot of plots.  Enter a value, k, in the Number of Variables to Plot box to limit the
+plots to the first k variables.  The plot is a SPLOM of all those variables.</p>
+<p>The size of each plot in the SPLOM can be specified as the number of pixels in each dimension.  The default is 100 pixels.</p>
 
 <h1>Acknowledgements</h1>
 The MVN package authors, on which this procedure is based, are
@@ -147,6 +142,6 @@ Dincer Goksuluk, and
 Gokmen Zararsiz.
 
   <p style="font-size:80%;">
-  © Copyright Jon K Peck and IBM Corp. 2024</p>
+  © Copyright Jon K Peck and IBM Corp. 2025</p>
 </body>
 </html>

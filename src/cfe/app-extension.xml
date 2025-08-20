@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<!--***********************************************************************--><!----><!--Licensed Materials - Property of IBM--><!----><!--IBM SPSS Products: Modeler Common--><!----><!--(C) Copyright IBM Corp. 1989, 2024--><!----><!--US Government Users Restricted Rights - Use, duplication or disclosure--><!--restricted by GSA ADP Schedule Contract with IBM Corp.--><!----><!--***********************************************************************--><AppExtension xmlns="http://xml.spss.com/pasw/extension" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" debug="false" version="8.0" xsi:schemaLocation="http://xml.spss.com/pasw/extension http://xml.spss.com/pasw/extension/AppExtension.xsd">
-  <ExtensionDetails copyright="(c) 2024 SPSS, Inc." description="Application extension for PySpark" id="normalityanalysis" label="Normality Analysis" provider="IBM SPSS, Inc." providerTag="SPSS"/>
+<!--***********************************************************************--><!----><!--Licensed Materials - Property of IBM--><!----><!--IBM SPSS Products: Modeler Common--><!----><!--(C) Copyright IBM Corp. 1989, 2025--><!----><!--US Government Users Restricted Rights - Use, duplication or disclosure--><!--restricted by GSA ADP Schedule Contract with IBM Corp.--><!----><!--***********************************************************************--><AppExtension xmlns="http://xml.spss.com/pasw/extension" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" debug="false" version="8.0" xsi:schemaLocation="http://xml.spss.com/pasw/extension http://xml.spss.com/pasw/extension/AppExtension.xsd">
+  <ExtensionDetails copyright="(c) 2025 SPSS, Inc." description="Application extension for PySpark" id="normalityanalysis" label="Normality Analysis" provider="IBM SPSS, Inc." providerTag="SPSS"/>
   <ExtensionName name="extension"/>
   <Application name="statistics">
     <AppFeature dialogTitleKey="normalityanalysis" featureId="normalityanalysis">
@@ -9,10 +9,10 @@
         <ProcedureInfo titleKey="normalityanalysis_proc_title"/>
         <AppUserInterface>
           <Menus>
-            <MenuItem actionIDToName="" featureId="normalityanalysis" imagePath="C:\Users\jkpec\AppData\Local\Temp\spss11968\_uibuilder6502857893880646246.tmp\defaultExtensionDialog.png" installToGlobalCustomMenu="false" isSpssNative="false" menuFrame="all" menuVersion="2" offset="5" previousId="analyze_desc_stat_percentiles" resourceKey="normalityanalysis" separatorAfter="none" separatorBefore="false" showIcon="false" spssMenu="Analyze.analyze_desc_stat"/>
+            <MenuItem actionIDToName="" featureId="normalityanalysis" imagePath="C:\Users\jkpec\AppData\Local\Temp\spss27248\_uibuilder1339835981275527785.tmp\defaultExtensionDialog.png" installToGlobalCustomMenu="false" isSpssNative="false" menuFrame="all" menuVersion="2" offset="5" previousId="analyze_desc_stat_percentiles" resourceKey="normalityanalysis" separatorAfter="none" separatorBefore="false" showIcon="false" spssMenu="Analyze.analyze_desc_stat"/>
           </Menus>
         </AppUserInterface>
-        <SyntaxGeneration syntaxTemplate="STATS NORMALITY ANALYSIS&#13;&#10; %%distvariables_syntax%%&#13;&#10; %%scaledata_syntax%% %%desc_syntax%% %%unitests_syntax%% %%mvntests_syntax%%&#13;&#10; %%uniplots_syntax%%&#13;&#10; %%multivarplots_syntax%% %%bootstrapreps_syntax%%&#13;&#10; %%showoutliers_syntax%% %%idvar_syntax%% %%outlierdetection_syntax%% %%noutliers_syntax%%.">
+        <SyntaxGeneration syntaxTemplate="STATS NORMALITY ANALYSIS&#13;&#10; %%distvariables_syntax%%&#13;&#10; %%scaledata_syntax%% %%desc_syntax%% %%unitests_syntax%% %%mvntests_syntax%%&#13;&#10; %%uniplots_syntax%%&#13;&#10; %%scatterplots_syntax%% %%bootstrapreps_syntax%%&#13;&#10; %%showoutliers_syntax%% %%idvar_syntax%% %%outlierdetection_syntax%% %%noutliers_syntax%%.">
           <SyntaxItem name="distvariables_syntax" syntax="VARIABLES=%%distvariables%%">
             <SyntaxCondition condition="isNotEmpty" operand="true" property="distvariables"/>
           </SyntaxItem>
@@ -48,32 +48,6 @@
               <SyntaxCondition condition="equals" operand="true" property="lille"/>
             </Or>
           </SyntaxItem>
-          <SyntaxProperty name="uniplots" syntax="%%ThisValue%%"/>
-          <SyntaxItem name="uniplots_syntax" syntax="%%uniplots_syntax_with_or%%"/>
-          <SyntaxItem name="histogram_syntax" syntax="HISTOGRAM">
-            <SyntaxCondition condition="equals" operand="true" property="histogram"/>
-          </SyntaxItem>
-          <SyntaxProperty name="histogram" syntax="%%ThisValue%%"/>
-          <SyntaxItem name="box_syntax" syntax="BOX">
-            <SyntaxCondition condition="equals" operand="true" property="box"/>
-          </SyntaxItem>
-          <SyntaxProperty name="box" syntax="%%ThisValue%%"/>
-          <SyntaxItem name="qq_syntax" syntax="QQ">
-            <SyntaxCondition condition="equals" operand="true" property="qq"/>
-          </SyntaxItem>
-          <SyntaxProperty name="qq" syntax="%%ThisValue%%"/>
-          <SyntaxItem name="scallter_syntax" syntax="SCATTER">
-            <SyntaxCondition condition="equals" operand="true" property="scallter"/>
-          </SyntaxItem>
-          <SyntaxProperty name="scallter" syntax="%%ThisValue%%"/>
-          <SyntaxItem name="uniplots_syntax_with_or" syntax="UNIPLOTS=%%histogram_syntax%% %%box_syntax%% %%qq_syntax%% %%scallter_syntax%% ">
-            <Or>
-              <SyntaxCondition condition="equals" operand="true" property="histogram"/>
-              <SyntaxCondition condition="equals" operand="true" property="box"/>
-              <SyntaxCondition condition="equals" operand="true" property="qq"/>
-              <SyntaxCondition condition="equals" operand="true" property="scallter"/>
-            </Or>
-          </SyntaxItem>
           <SyntaxItem name="scaledata_syntax" syntax="/OUTPUT SCALEDATA=YES">
             <SyntaxCondition condition="equals" operand="true" property="scaledata"/>
           </SyntaxItem>
@@ -85,6 +59,13 @@
             <SyntaxCondition condition="equals" operand="true" property="desc"/>
           </SyntaxItem>
           <SyntaxProperty name="desc" syntax="%%ThisValue%%"/>
+          <SyntaxItem name="uniplots_syntax" syntax="UNIPLOTS=YES">
+            <SyntaxCondition condition="equals" operand="true" property="uniplots"/>
+          </SyntaxItem>
+          <SyntaxItem name="uniplots_syntax" syntax="UNIPLOTS=NO">
+            <SyntaxCondition condition="equals" operand="false" property="uniplots"/>
+          </SyntaxItem>
+          <SyntaxProperty name="uniplots" syntax="%%ThisValue%%"/>
           <SyntaxProperty name="mvntests" syntax="%%ThisValue%%"/>
           <SyntaxItem name="mvntests_syntax" syntax="%%mvntests_syntax_with_or%%"/>
           <SyntaxItem name="item_22_syntax" syntax="HZ">
@@ -123,27 +104,29 @@
             </And>
           </SyntaxItem>
           <SyntaxProperty name="bootstrapreps" syntax="%%ThisValue%%"/>
+          <SyntaxProperty name="scatterplots" syntax="%%ThisValue%%"/>
+          <SyntaxItem name="scatterplots_syntax" syntax="%%multivarplots_syntax%% %%item_49_syntax%% %%plotsize_syntax%% "/>
+          <SyntaxItem name="multivarplots_syntax" syntax="SCATTERPLOTS=YES">
+            <SyntaxCondition condition="equals" operand="true" property="multivarplots"/>
+          </SyntaxItem>
+          <SyntaxItem name="multivarplots_syntax" syntax="SCATTERPLOTS=NO">
+            <SyntaxCondition condition="equals" operand="false" property="multivarplots"/>
+          </SyntaxItem>
           <SyntaxProperty name="multivarplots" syntax="%%ThisValue%%"/>
-          <SyntaxItem name="multivarplots_syntax" syntax="%%multivarplots_syntax_with_or%%"/>
-          <SyntaxItem name="item_30_syntax" syntax="QQ">
-            <SyntaxCondition condition="equals" operand="true" property="item_30"/>
+          <SyntaxItem name="item_49_syntax" syntax="NSCATTERPLOTVARS=%%item_49%%">
+            <And>
+              <SyntaxCondition condition="equals" operand="true" property="multivarplots"/>
+              <SyntaxCondition condition="isNotEmpty" operand="true" property="item_49"/>
+            </And>
           </SyntaxItem>
-          <SyntaxProperty name="item_30" syntax="%%ThisValue%%"/>
-          <SyntaxItem name="item_29_syntax" syntax="PERSP">
-            <SyntaxCondition condition="equals" operand="true" property="item_29"/>
+          <SyntaxProperty name="item_49" syntax="%%ThisValue%%"/>
+          <SyntaxItem name="plotsize_syntax" syntax="SCATTERPLOTSIZE=%%plotsize%%">
+            <And>
+              <SyntaxCondition condition="equals" operand="true" property="multivarplots"/>
+              <SyntaxCondition condition="isNotEmpty" operand="true" property="plotsize"/>
+            </And>
           </SyntaxItem>
-          <SyntaxProperty name="item_29" syntax="%%ThisValue%%"/>
-          <SyntaxItem name="item_28_syntax" syntax="CONTOUR">
-            <SyntaxCondition condition="equals" operand="true" property="item_28"/>
-          </SyntaxItem>
-          <SyntaxProperty name="item_28" syntax="%%ThisValue%%"/>
-          <SyntaxItem name="multivarplots_syntax_with_or" syntax="MULTIVARPLOTS=%%item_30_syntax%% %%item_29_syntax%% %%item_28_syntax%% ">
-            <Or>
-              <SyntaxCondition condition="equals" operand="true" property="item_30"/>
-              <SyntaxCondition condition="equals" operand="true" property="item_29"/>
-              <SyntaxCondition condition="equals" operand="true" property="item_28"/>
-            </Or>
-          </SyntaxItem>
+          <SyntaxProperty name="plotsize" syntax="%%ThisValue%%"/>
           <SyntaxItem name="idvar_syntax" syntax="IDVAR=%%idvar%%">
             <And>
               <SyntaxCondition condition="equals" operand="true" property="showoutliers"/>
