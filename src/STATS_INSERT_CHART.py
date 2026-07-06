@@ -27,22 +27,17 @@ def doinsertcharts(chartlist=None, header=None, outlinelabel=None, labelparm=Non
     """
     # debugging
             # makes debug apply only to the current thread
-    #try:
-        #import wingdbstub
-        #import threading
-        #wingdbstub.Ensure()
-        ####wingdbstub.debugger.SetDebugThreads({threading.get_ident(): 1})
-    #except:
-        #pass
+    try:
+        import wingdbstub
+        import threading
+        wingdbstub.Ensure()
+        wingdbstub.debugger.SetDebugThreads({threading.get_ident(): 1})
+    except:
+        pass
 
     if chartlist is not None:
-        try:
-            with open(chartlist) as f:
-                charts = f.readlines()
-        except:
-            print("CHARTLIST file not found")
-            raise
-        
+        with open(chartlist) as f:
+            charts = f.readlines()
         charts = [item[:-1] for item in charts]  # eliminate newlines
     else:
         charts = None
@@ -92,6 +87,7 @@ def Run(args):
     """Execute the STATS INSERT CHART command"""
     
     args = args[list(args.keys())[0]]
+
     oobj = Syntax([
         Template("CHARTLIST", subc="",  ktype="str", var="chartlist", islist=False),
         Template("LABELPARM", subc="",  ktype="int", var="labelparm", islist=True),
