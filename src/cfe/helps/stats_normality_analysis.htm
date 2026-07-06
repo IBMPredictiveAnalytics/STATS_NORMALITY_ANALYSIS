@@ -35,7 +35,7 @@
 <body>
   <h1>Normality Analysis</h1>
   <p>Use this dialog to assess the univariate and multivariate normality of a set of variables via formal tests and various plots.  It provides a number of test statistics, plots, and an outlier analysis.  Choose the variables whose distribution
-  will be analyzed on the first tab. At least two variables must be specified.  Only variables with a scale measurement level can be analyzed,
+  will be analyzed on the first tab. Only variables with a scale measurement level can be analyzed,
   Choose the desired tests, plots, and summary statistics on the <i>Tests and Plots</i> tab, and choose the desired outlier analysis on the <i>Outliers</i> tab.  
   While there is no limit on the number of variables that can be analyzed, some plots may be hard to read with a large number of variables.</p>
   
@@ -45,12 +45,10 @@
   <p>If the analysis leads to a need to transform variables in order to make their distribution more normal, the <i>Preprocess variables</i> extension command provides several transformation methods that may be used.  If not already installed, this command can be installed via <i>Extensions &gt; Extension Hub</i>.  It will appear on the <i>Transform</i> menu.</p>
   
   <h2>Tests and Plots</h2>
-  <p>Check the boxes for the desired univariate and multivariate tests.  See below for information about these tests.  The <i>Royston</i> and <i>Shapiro-Wilk</i> tests cannot be used with more than 5000 cases or fewer than 3.</p>
+  <p>Check the boxes for the desired univariate and multivariate tests.  See below for information about these tests.  The <i>Royston</i> and <i>Shapiro-Wilk</i> tests cannot be used with more than 2000 or5000 cases, respectively, or fewer than 3.</p>
   
-  <p>Check the boxes for the desired plots.  The univariate plots are a boxplot of all the variables and a paired histogram and qqplot for each variable.  The multivariate plots are two variable scatterplots for each pair of variables.</p>
-  
-  <p>Check the <i>Descriptive Statistics</i> box to produce a table of statistics
-  useful for normality analysis.</p>
+  <p>Check the boxes for the desired plots.  The univariate plots are a boxplot of all the variables and a paired histogram and Q-Q plot for each variable.  The Q-Q plots include tail-sensitive Aldor-Noiman plots.
+  The multivariate plots are two variable scatterplots for each pair of variables.</p>
   
   <p>Check the <i>Scale all variables</i> box to scale all the variables</p>
   
@@ -65,7 +63,11 @@ The id values must be unique across cases.  The id variable must not be included
 normality.  If this assumption is violated, the results may not be valid.  However,
 in large samples, the Central Limit Theorem under general conditions 
 states that the distribution of sample means approximately follows a normal
-distribution, so the normality assumption is less important in large samples. </p>
+distribution, so the normality assumption is less important in large samples. 
+A rule of thumb is that thirty cases is enough, but if the distribution has
+heavy tails or is highly skewed, many more cases may be needed before the normal
+distribution test assumption is appropriate.
+</p>
 
 <h2>Univariate Tests</h2>
 <h3>Anderson-Darling Test</h3>
@@ -102,6 +104,8 @@ Histogram is a very simple and important graph of the frequency distribution. Th
 The box-whisker plot or box plot is another way to assess the normality of the data.. This plot uses the quartiles and extreme values of the data as a summary measure. The plot consists of a rectangle (the box) in the central part of the observed data and whiskers are drawn to the lowest and highest values from the rectangle. The limits of the box are lower and upper quartiles and the middle line is the median. A box plot that is symmetric with the median line at approximately the centre of the box and with symmetric whiskers indicate that the data may have come from a normal distribution. </p>
 <h3>Q-Q Plot</h3>
 The Quantile-Quantile (Q-Q) plot is also used for examining whether the data follows a specific distribution or not. The quantiles of the data are plotted against the expected values of desired distribution. This plot should look like a straight line. A quantile plot is a visual display that provides a lot of information about a univariate distribution and the quantiles of a distribution are a set of summary statistics that locate at relative positions within the complete ordered array of data values. For normally distributed data, observed data are approximate to the expected data, that is, they are statistically equal.</p>  Each histogram is paired with a Q-Q plot for the same variable.
+<p>The Q-Q plots include 95% tail-sensitive Aldor-Noiman confidence bands.
+See <a href="doi:10.1080/00031305.2013.847865">The Power to See: A New Graphical Test of Normality"</a>
 
 
 
@@ -141,7 +145,9 @@ Selcuk Korkmaz,
 Dincer Goksuluk, and
 Gokmen Zararsiz.
 
+<h1>References</h1>
+<p>Aldor-Noiman, S. et al. (2013). The Power to See: A New Graphical Test of Normality. The American Statistician. 67:4.
   <p style="font-size:80%;">
-  © Copyright Jon K Peck and IBM Corp. 2025</p>
+  © Copyright Jon K Peck and IBM Corp. 2025, 2026</p>
 </body>
 </html>
